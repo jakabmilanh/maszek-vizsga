@@ -28,23 +28,46 @@ class RegisteredUserController extends Controller
      * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request): RedirectResponse
-    {
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
-        ]);
+{
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
+    $request->validate([
+        'username' => ['required', 'string', 'max:50', 'unique:users'],
+        'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+        'password' => ['required', 'confirmed'],
+        'telephone' => ['required', 'string', 'max:20'],
+        'role' => ['required', 'in:employer,employee,both'],
+        'profile_picture' => ['nullable', 'image', 'max:2048'],
+        'profession_pictures' => ['nullable', 'array'],
+        'profession_pictures.*' => ['image', 'max:2048'],
+        'bio' => ['nullable', 'string'],
+    ]);
 
-        event(new Registered($user));
-
-        Auth::login($user);
-
-        return redirect(route('dashboard', absolute: false));
+    $profilePicturePath = null;
+    if ($request->hasFile('profile_picture')) {
+        $profilePicturePath = $request->file('profile_picture')->store('images/profile_pictures', 'public');
     }
+
+    $professionPicturesPaths = [];
+    if ($request->hasFile('profession_pictures')) {
+        foreach ($request->file('profession_pictures') as $file) {
+            $professionPicturesPaths[] = $file->store('images/profession_pictures', 'public');
+        }
+    }
+    $user = User::create([
+        'username' => $request->username,
+        'email' => $request->email,
+        'password' => Hash::make($request->password),
+        'telephone' => $request->telephone,
+        'role' => $request->role,
+        'profile_picture' => $profilePicturePath,
+        'profession_pictures' => json_encode($professionPicturesPaths),
+        'bio' => $request->bio,
+    ]);
+
+    event(new Registered($user));
+
+    Auth::login($user);
+
+    return redirect(route('home'));
+}
 }

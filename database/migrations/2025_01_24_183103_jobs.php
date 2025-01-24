@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateJobsTable extends Migration
+class Jobs extends Migration
 {
     public function up()
     {
@@ -20,7 +20,7 @@ class CreateJobsTable extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            $table->foreign('employer_id')->references('user_id')->on('users')->onDelete('cascade');
+            $table->foreign('employer_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

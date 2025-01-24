@@ -3,7 +3,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateReviewsTable extends Migration
+class Reviews extends Migration
 {
     public function up()
     {
@@ -14,12 +14,12 @@ class CreateReviewsTable extends Migration
             $table->unsignedBigInteger('reviewee_id');
             $table->unsignedTinyInteger('rating');
             $table->text('review_text')->nullable();
-            $table->timestamps(); // Includes `created_at` and `updated_at`
-            $table->softDeletes(); // Adds `deleted_at` column for soft deletes
+            $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('job_id')->references('job_id')->on('jobs')->onDelete('cascade');
-            $table->foreign('reviewer_id')->references('user_id')->on('users')->onDelete('cascade');
-            $table->foreign('reviewee_id')->references('user_id')->on('users')->onDelete('cascade');
+            $table->foreign('reviewer_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('reviewee_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
