@@ -1,3 +1,7 @@
+import 'bootstrap';
+import Alpine from 'alpinejs';
+
+window.Alpine = Alpine;
 
 function windowScroll() {
     const navbar = document.getElementById("navbar");
@@ -16,5 +20,7 @@ function windowScroll() {
     windowScroll();
   })
 
+
+Alpine.start();
 
 

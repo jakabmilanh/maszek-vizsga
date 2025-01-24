@@ -52,7 +52,7 @@
         </nav>
         <!-- End Navbar -->
 
-        <!-- Start Home -->
+        <!-- Start Dashboard -->
         <section class="section-home home" id="home">
             <div class="container-lg">
                 <div class="row align-items-center mt-5 mt-lg-0">
@@ -79,7 +79,7 @@
                 </div>
             </div>
         </section>
-        <!-- End Home -->
+        <!-- End Dashboard -->
 
          <!-- START Role -->
          <section class="section role" id="role">
