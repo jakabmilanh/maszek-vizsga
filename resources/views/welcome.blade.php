@@ -2,7 +2,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         <meta charset="utf-8" />
-        <title>Maszek | Alkalmi munkák bárkinek</title>
+        <title>Maszek | Állás, vagy akár alkalmi munka? Itt mindent megtalálsz!</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
@@ -89,7 +89,7 @@
                     <div class="col-lg-12">
                         <div class="text-center">
                             <h3 class="heading">Válaszd ki, hogyan szeretnéd használni a Maszek platformot!</h3>
-                            <p class="text-muted">Regisztrálj most, és kezdj el kapcsolódni a számodra legjobb partnerekkel!"</p>
+                            <p class="text-muted">Regisztrálj most, és kutass állás, vagy akár alkalmi munka után.</p>
                         </div>
                     </div><!-- End col -->
                     <div class="col-lg-6 col-md-6">
@@ -162,7 +162,7 @@
                                                 <i class="bi bi-check-all"></i>
                                             </div>
                                             <div class="flex-grow-1 ms-2">
-                                                <span><b class="fw-semibold">Szabadúszó projektek:</b>   Ne csak munkát, hanem rugalmas projektekre szóló megbízásokat is találhatsz.</span>
+                                                <span><b class="fw-semibold">Szabadúszó projektek:</b>   Nem csak munkát, hanem rugalmas projektekre szóló megbízásokat is találhatsz.</span>
                                             </div>
                                         </div>
                                     </li>
@@ -209,7 +209,7 @@
                 </div>
                 <!--end row-->
                 <div class="row justify-content-center py-5 gy-5 mx-1">
-                    <div class=" card job-box col-lg-3 col-md-3 p-3">
+                    <div class=" card job-box col-lg-3 col-md-5 p-3">
                         <h5>Web Designer / Developer</h5>
                         <p class="job-posted-time">
                             <i class="bi bi-clock icon-color-primary"></i><a class="text-muted job-date"> Meghírdetve 3 napja</a>
@@ -235,7 +235,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class=" card job-box col-lg-3 col-md-3 p-3">
+                    <div class=" card job-box col-lg-3 col-md-5 p-3">
                         <h5>Web Designer / Developer</h5>
                         <p class="job-posted-time">
                             <i class="bi bi-clock icon-color-primary"></i><a class="text-muted job-date"> Meghírdetve 3 napja</a>
@@ -261,7 +261,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class=" card job-box col-lg-3 col-md-3 p-3">
+                    <div class=" card job-box col-lg-3 col-md-5 p-3">
                         <h5>Web Designer / Developer</h5>
                         <p class="job-posted-time">
                             <i class="bi bi-clock icon-color-primary"></i><a class="text-muted job-date"> Meghírdetve 3 napja</a>

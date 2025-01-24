@@ -139,6 +139,11 @@ position: relative;
   color: #8A0779;
   border-color: #8A0779;
 }
+@media (max-width: 768px) {
+    .btn-outline-primary {
+      margin-top: 20px;
+    }
+  }
 .btn-outline-primary:hover, .btn-outline-primary:focus, .btn-outline-primary:active, .btn-outline-primary.active, .btn-outline-primary.focus, .btn-outline-primary:not(:disabled):not(.disabled):active, .btn-outline-primary:not(:disabled):not(.disabled):active:focus,
 .btn-outline-primary .open > .dropdown-toggle.btn-primary {
   background: #8A0779;
@@ -221,6 +226,7 @@ position: relative;
   .nav-link {
     display: inline-block;
   }
+
 }
 .home .home-heading h6 {
   letter-spacing: 2px;
