@@ -129,6 +129,103 @@
         <!-- end Login -->
 
         <!-- end Login -->
+        <!-- START FOOTER -->
+        <footer class="section bg-footer mt-5">
+            <div class="container-lg ">
+                <div class="row g-sm-4">
+                    <div class="col-lg-12">
+                        <div class="mb-3 mb-sm-0">
+                            <img src="images/maszek-logo.png" class="logo-dark" alt="" height="22">
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-md-4 col-6">
+                        <h6 class="text-uppercase fw-semibold">Rólunk</h6>
+                        <ul class="list-unstyled footer-link mt-3 mb-0 ">
+                            <li><a href="javascript:void(0)">Rólunk</a></li>
+                            <li><a href="javascript:void(0)">Instagram</a></li>
+                            <li><a href="javascript:void(0)">Facebook</a></li>
+                            <li><a href="javascript:void(0)">Twitter X</a></li>
+                        </ul>
+                    </div><!-- End col -->
+
+                    <div class="col-lg-3 col-md-4 col-6">
+                        <h6 class="text-uppercase fw-semibold">Munkakezdés</h6>
+                        <ul class="list-unstyled footer-link mt-3 mb-0 ">
+                            <li><a href="javascript:void(0)">Bevezetés</a></li>
+                            <li><a href="javascript:void(0)">Regisztráció</a></li>
+                            <li><a href="javascript:void(0)">Munkák</a></li>
+
+                        </ul>
+                    </div><!-- End col -->
+
+                    <div class="col-lg-3 col-md-4 col-6 d-none d-sm-block">
+                        <h6 class="text-uppercase fw-semibold">Anyagok</h6>
+                        <ul class="list-unstyled footer-link mt-3 mb-0 ">
+                            <li><a href="javascript:void(0)">Videók</a></li>
+                            <li><a href="javascript:void(0)">Képek</a></li>
+                            <li><a href="javascript:void(0)">ÁSZF</a></li>
+                            <li><a href="javascript:void(0)">GDPR</a></li>
+                        </ul>
+                    </div><!-- End col -->
+                    <div class="col-lg-3 col-10">
+                        <h6 class="text-uppercase fw-semibold">Hírlevél
+                            <span class="text-primary text-uppercase ">MASZEK</span></h6>
+                            <p class="mt-md-3 pt-3 pt-md-2 ">Iratkozzon  fel hírlevelünkre, még ma!</p>
+                        <div class="footer-subcribe text-end shadow-sm d-inline-block">
+                            <form action="javascript:void(0)">
+                                <input placeholder="Email cím" type="email">
+                                <button type="submit" class="btn btn-primary"><i class="bi bi-bell"></i></button>
+                            </form>
+                        </div>
+                            <div class="mt-md-4 mt-3">
+                                <ul class="list-inline footer-social mb-0">
+                                    <li class="list-inline-item">
+                                        <a href="javascript:void(0)" class="rounded">
+                                            <i class="mdi mdi-facebook text-dark"></i>
+                                        </a>
+                                    </li>
+
+                                    <li class="list-inline-item">
+                                        <a href="javascript:void(0)" class="rounded">
+                                            <i class="mdi mdi-linkedin text-dark"></i>
+                                        </a>
+                                    </li>
+
+                                    <li class="list-inline-item">
+                                        <a href="javascript:void(0)" class="rounded">
+                                            <i class="mdi mdi-pinterest text-dark"></i>
+                                        </a>
+                                    </li>
+
+                                    <li class="list-inline-item">
+                                        <a href="javascript:void(0)" class="rounded">
+                                            <i class="mdi mdi-twitter text-dark"></i>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                    </div>
+                </div><!-- End row -->
+            </div><!-- End container -->
+        </footer>
+        <!-- END FOOTER -->
+
+        <!-- FOOTER-ALT -->
+        <div class="footer-alt pt-3 pb-3">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="text-center">
+                            <p class="mb-0 text-white">©
+                                <script>document.write(new Date().getFullYear())</script> MASZEK | Minden jog fenntartva.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END FOOTER-ALT -->
 
 
 
