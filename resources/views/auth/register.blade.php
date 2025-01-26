@@ -146,8 +146,8 @@
                                     <div class="position-relative mb-3">
                                         <span class="input-group-text"><i class="bi bi-person-badge"></i></span>
                                         <select name="role" id="role" class="form-select" style="padding-left: 60px" required>
-                                            <option value="employer" >Munkavállaló</option>
-                                            <option value="employee" >Munkáltató</option>
+                                            <option value="Munkavállaló" >Munkavállaló</option>
+                                            <option value="Munkáltató" >Munkáltató</option>
                                         </select>
                                     </div>
                                 </div>

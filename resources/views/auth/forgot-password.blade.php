@@ -71,18 +71,20 @@
                             </div>
                             <div class="row">
                                 <!-- Email -->
+                                @if ($errors->has('email'))
+                                <div class="text-danger mb-2">
+                                    {{ $errors->first('email') }}
+                                </div>
+                            @endif
                                 <div class="col-lg-12">
                                     <div class="position-relative mb-3">
                                         <span class="input-group-text"><i class="bi bi-envelope"></i></span>
                                         <input name="email" id="email" type="email" class="form-control" placeholder="Email Cím" value="{{ old('email') }}" required autofocus>
-                                        @if ($errors->has('email'))
-                                            <div class="text-danger mt-2">
-                                                {{ $errors->first('email') }}
-                                            </div>
-                                        @endif
+
                                     </div>
                                 </div>
                             </div>
+
 
                             <div class="row">
                                 <div class="col-lg-12 d-flex justify-content-center flex-column align-items-center">

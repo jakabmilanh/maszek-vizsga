@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('profile_picture')->nullable();
             $table->json('profession_pictures')->nullable();
             $table->text('bio')->nullable();
-            $table->enum('role', ['employer', 'employee']);
+            $table->enum('role', ['Munkáltató', 'Munkavállaló']);
             $table->string('telephone', 20);
             $table->rememberToken();
             $table->timestamps();

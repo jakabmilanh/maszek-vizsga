@@ -35,7 +35,7 @@ class RegisteredUserController extends Controller
         'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
         'password' => ['required', 'confirmed'],
         'telephone' => ['required', 'string', 'max:20'],
-        'role' => ['required', 'in:employer,employee,both'],
+        'role' => ['required', 'in:Munkáltató,Munkavállaló'],
         'profile_picture' => ['nullable', 'image', 'max:2048'],
         'profession_pictures' => ['nullable', 'array'],
         'profession_pictures.*' => ['image', 'max:2048'],
