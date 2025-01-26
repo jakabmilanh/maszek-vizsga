@@ -27,7 +27,7 @@
                 <div class="collapse navbar-collapse" id="navbarCollapse">
                     <ul class="navbar-nav mx-auto" id="navbar-navlist">
                         <li class="nav-item">
-                            <a class="nav-link active" href={{route('home')}}>Főoldal</a>
+                            <a class="nav-link" href={{route('home')}}>Főoldal</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#contact">Kapcsolat</a>
@@ -51,7 +51,6 @@
                 </div>
             </div>
         </nav>
-        <!-- End Navbar -->
         <!-- End Navbar -->
         <div class="container-lg mt-5">
             <div class="row justify-content-center mt-5">
@@ -77,6 +76,7 @@
                             <h3 class="heading">Bejelentkezés</h3>
                             <p class="text-muted mt-2">Lépj be a fiókodba a felhasználónév és jelszó segítségével.</p>
                             <p class="text-muted mt-2"> Nincs még fiókod? <a href="{{ route('register') }}" class="text-primary">Regisztráció</a></p>
+
                         </div>
                     </div>
                 </div>
@@ -114,8 +114,9 @@
                             </div>
 
                             <div class="row ">
-                                <div class="col-lg-12 d-flex justify-content-center ">
+                                <div class="col-lg-12 d-flex justify-content-center flex-column align-items-center">
                                     <button type="submit" class="btn btn-primary mx-2">Bejelentkezés</button>
+                                    <p class="text-muted mt-3"> Elfelejtetted a jelszavad? <a href="{{ route('password.request') }}" class="text-primary">Új jelszó</a></p>
                                 </div>
                             </div>
                         </form>

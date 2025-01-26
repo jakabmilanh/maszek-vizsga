@@ -26,7 +26,7 @@
                 <div class="collapse navbar-collapse" id="navbarCollapse">
                     <ul class="navbar-nav mx-auto" id="navbar-navlist">
                         <li class="nav-item">
-                            <a class="nav-link active" href={{route('home')}}>Főoldal</a>
+                            <a class="nav-link" href={{route('home')}}>Főoldal</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#contact">Kapcsolat</a>
