@@ -43,7 +43,7 @@
                         </ul>
                         <div class="d-flex align-items-center">
                             @if (auth()->check())
-                            <div class="me-5 d-flex align-items-center">
+                            <div class="me-5 d-flex align-items-center ">
                                 <a href="{{ route('logout') }}" class="text-primary mx-3"
                                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                     Kijelentkezés
@@ -90,7 +90,7 @@
                                     <ul class="list-unstyled">
                                         @if(auth()->user()->profession_pictures && count(json_decode(auth()->user()->profession_pictures)) > 0)
                                             @foreach(json_decode(auth()->user()->profession_pictures) as $profession)
-                                                <img src="{{ asset('images/profession_pictures/'+$profession+'') }}" style="width: 150px; height: 150px;">
+                                                <li>{{$profession}}</li>
                                             @endforeach
                                         @else
                                             <li>Nincs még feltöltött dokumentum</li>
@@ -101,105 +101,96 @@
 
 
                             <div class="col-lg-8">
-                                <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data">
-                                    @csrf
-                                    @method('PUT')
-                                    <div class="mb-4">
-                                        <h5 class="text-primary">Felhasználói adatok</h5>
-                                        <hr>
-                                    </div>
+                                    @if ($errors->any())
+                                        <div class="alert alert-danger">
+                                            <ul>
+                                                @foreach ($errors->all() as $error)
+                                                    <li>{{ $error }}</li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                    @endif
+                                    <form method="POST" action="{{ route('profile.update', ['user' => Auth::id()]) }}" enctype="multipart/form-data" class="contact-form">
+                                        @csrf
+                                        @method('PUT') <!-- This simulates the PUT request -->
 
+                                        <span id="error-msg"></span>
 
-                                    <div class="mb-4">
-                                        <label for="username" class="form-label">Felhasználónév</label>
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="username"
-                                            name="username"
-                                            value="{{ auth()->user()->username }}"
-                                            required
-                                        >
-                                    </div>
+                                        <div class="row">
+                                            <!-- Username -->
+                                            <div class="col-lg-12">
+                                                <div class="position-relative mb-3">
+                                                    <span class="input-group-text"><i class="bi bi-person"></i></span>
+                                                    <input name="username" id="username" type="text" class="form-control" placeholder="Felhasználónév" value="{{ old('username', Auth::user()->username) }}" required>
+                                                    @error('username')
+                                                        <div class="text-danger">{{ $message }}</div>
+                                                    @enderror
+                                                </div>
+                                            </div>
 
+                                            <!-- Email -->
+                                            <div class="col-lg-12">
+                                                <div class="position-relative mb-3">
+                                                    <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                                                    <input name="email" id="email" type="email" class="form-control" placeholder="Email cím" value="{{ old('email', Auth::user()->email) }}" required>
+                                                    @error('email')
+                                                        <div class="text-danger">{{ $message }}</div>
+                                                    @enderror
+                                                </div>
+                                            </div>
 
-                                    <div class="mb-4">
-                                        <label for="email" class="form-label">Email</label>
-                                        <input
-                                            type="email"
-                                            class="form-control"
-                                            id="email"
-                                            name="email"
-                                            value="{{ auth()->user()->email }}"
-                                            required
-                                        >
-                                    </div>
+                                            <!-- Telephone -->
+                                            <div class="col-lg-12">
+                                                <div class="position-relative mb-3">
+                                                    <span class="input-group-text"><i class="bi bi-telephone"></i></span>
+                                                    <input name="telephone" id="telephone" type="text" class="form-control" placeholder="Telefonszám" value="{{ old('telephone', Auth::user()->telephone) }}" required>
+                                                    @error('telephone')
+                                                        <div class="text-danger">{{ $message }}</div>
+                                                    @enderror
+                                                </div>
+                                            </div>
 
+                                            <!-- Bio -->
+                                            <div class="col-lg-12">
+                                                <div class="position-relative mb-3">
+                                                    <span class="input-group-text d-flex align-items-start"><i class="bi bi-file-earmark-person"></i></span>
+                                                    <textarea name="bio" id="bio" class="form-control" placeholder="Bio" rows="4">{{ old('bio', Auth::user()->bio) }}</textarea>
+                                                    @error('bio')
+                                                        <div class="text-danger">{{ $message }}</div>
+                                                    @enderror
+                                                </div>
+                                            </div>
 
-                                    <div class="mb-4">
-                                        <label for="telephone" class="form-label">Telefonszám</label>
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="telephone"
-                                            name="telephone"
-                                            value="{{ auth()->user()->telephone ?? '' }}"
-                                        >
-                                    </div>
+                                            <!-- Profile Picture -->
+                                            <div class="col-lg-12">
+                                                <div class="position-relative mb-3">
+                                                    <span class="input-group-text"><i class="bi bi-camera"></i></span>
+                                                    <input name="profile_picture" id="profile_picture" type="file" class="form-control" accept="image/*">
+                                                    @error('profile_picture')
+                                                        <div class="text-danger">{{ $message }}</div>
+                                                    @enderror
+                                                </div>
+                                            </div>
 
+                                            <!-- Profession Documents -->
+                                            <div class="col-lg-12">
+                                                <div class="position-relative mb-3">
+                                                    <span class="input-group-text"><i class="bi bi-file-earmark-text"></i></span>
+                                                    <input name="profession_pictures[]" id="profession_pictures" type="file" class="form-control" multiple>
+                                                    @error('profession_pictures')
+                                                        <div class="text-danger">{{ $message }}</div>
+                                                    @enderror
+                                                </div>
+                                            </div>
 
-                                    <div class="mb-4">
-                                        <label for="bio" class="form-label">Leírás</label>
-                                        <textarea
-                                            class="form-control"
-                                            id="bio"
-                                            name="bio"
-                                            rows="2"
-                                        >{{ auth()->user()->bio ?? '' }}</textarea>
-
-                                    <div class="mb-4">
-                                        <label for="role" class="form-label">Szerepkör</label>
-                                        <select
-                                            class="form-select"
-                                            id="role"
-                                            name="role"
-                                            aria-label="Select Role"
-                                            required
-                                        >
-                                            <option value="employer" {{ auth()->user()->role === 'Munkavállaló' ? 'selected' : '' }}>Munkavállaló</option>                                       </option>
-                                            <option value="employee" {{ auth()->user()->role === 'Munkáltató' ? 'selected' : '' }}>Munkáltató</option>
-                                        </select>
-                                    </div>
-
-
-                                    <div class="mb-4">
-                                        <label for="profile_picture" class="form-label">Profilkép</label>
-                                        <input
-                                            type="file"
-                                            class="form-control"
-                                            id="profile_picture"
-                                            name="profile_picture"
-                                        >
-                                    </div>
-
-                                    <div class="mb-4">
-                                        <label for="profession_pictures" class="form-label">Dokumentumok</label>
-                                        <input
-                                            type="file"
-                                            class="form-control"
-                                            id="profession_pictures"
-                                            name="profession_pictures[]"
-                                            multiple
-                                        >
-                                        <small class="form-text text-muted">
-                                            Tölts fel új dokumentumokat vagy frissítsd a meglévőket. Több fájl is kiválasztható.
-                                        </small>
-                                    </div>
-
-                                    <div class="d-flex justify-content-start">
-                                        <button type="submit" class="btn btn-primary">Mentés</button>
-                                    </div>
-                                </form>
+                                            <!-- Submit Button -->
+                                            <div class="col-lg-12">
+                                                <div class="position-relative mb-3">
+                                                    <button type="submit" class="btn btn-primary">Módosítások mentése</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
                             </div>
                         </div>
                     </div>
