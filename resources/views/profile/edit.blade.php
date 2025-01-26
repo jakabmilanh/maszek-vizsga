@@ -132,7 +132,7 @@
                                             <div class="col-lg-12">
                                                 <div class="position-relative mb-3">
                                                     <span class="input-group-text"><i class="bi bi-envelope"></i></span>
-                                                    <input name="email" id="email" type="email" class="form-control" placeholder="Email cím" value="{{ old('email', Auth::user()->email) }}" required>
+                                                    <input name="email" id="email" type="email" class="form-control" placeholder="Email cím" value="{{ old('email', Auth::user()->email) }}" required readonly>
                                                     @error('email')
                                                         <div class="text-danger">{{ $message }}</div>
                                                     @enderror
@@ -143,7 +143,7 @@
                                             <div class="col-lg-12">
                                                 <div class="position-relative mb-3">
                                                     <span class="input-group-text"><i class="bi bi-telephone"></i></span>
-                                                    <input name="telephone" id="telephone" type="text" class="form-control" placeholder="Telefonszám" value="{{ old('telephone', Auth::user()->telephone) }}" required>
+                                                    <input name="telephone" id="telephone" type="text" class="form-control" placeholder="Telefonszám" value="{{ old('telephone', Auth::user()->telephone) }}" required readonly>
                                                     @error('telephone')
                                                         <div class="text-danger">{{ $message }}</div>
                                                     @enderror
