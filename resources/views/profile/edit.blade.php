@@ -30,7 +30,7 @@
                                 <a class="nav-link" href={{route('home')}}>Főoldal</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#contact">Kapcsolat</a>
+                                <a class="nav-link" href={{route('home#kapcsolat')}}>Kapcsolat</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="">Rólunk</a>
