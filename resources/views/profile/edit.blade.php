@@ -82,7 +82,12 @@
                                     >
                                 </div>
                                 <h4>{{ auth()->user()->username }}</h4>
-                                <p class="text-muted">{{ auth()->user()->role }}</p>
+
+                                @if (auth()->user()->role == "Munkavállaló")
+                                <p class="text-warning">{{ auth()->user()->role }}</p>
+                                @else
+                                <p class="text-danger">{{ auth()->user()->role }}</p>
+                                @endif
 
 
                                 <div class="mt-4">
@@ -197,5 +202,73 @@
                 </div>
             </div>
         <!-- End Profile -->
+            <!-- Start Joblisting -->
+            <div class="container-lg">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card shadow-sm">
+                            <div class="card-body">
+                                @if(Auth::user()->role === 'Munkáltató')
+                                    @if($jobs->isEmpty())
+                                        <!-- No jobs available -->
+                                        <div class="text-start p-4">
+                                            <p class="text-muted">Még nem hoztál létre hírdetést.</p>
+                                            <a href="{{ route('jobs.create') }}" class="btn btn-primary">
+                                                <i class="bi bi-plus-lg"></i> Új munkahírdetés
+                                            </a>
+                                        </div>
+                                    @else
+                                        <!-- List of jobs -->
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered">
+                                                <thead class="table-dark">
+                                                    <tr>
+                                                        <th>Title</th>
+                                                        <th>Category</th>
+                                                        <th>Location</th>
+                                                        <th>Posted On</th>
+                                                        <th>Actions</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach($jobs as $job)
+                                                        <tr>
+                                                            <td>{{ $job->title }}</td>
+                                                            <td>{{ $job->category }}</td>
+                                                            <td>{{ $job->location }}</td>
+                                                            <td>{{ $job->created_at->format('Y-m-d') }}</td>
+                                                            <td>
+                                                                <a href="{{ route('jobs.edit', $job->job_id) }}" class="btn btn-warning btn-sm">
+                                                                    <i class="bi bi-pencil"></i> Edit
+                                                                </a>
+                                                                <form action="{{ route('jobs.destroy', $job->job_id) }}" method="POST" class="d-inline">
+                                                                    @csrf
+                                                                    @method('DELETE')
+                                                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this job?');">
+                                                                        <i class="bi bi-trash"></i> Delete
+                                                                    </button>
+                                                                </form>
+                                                            </td>
+                                                        </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
+                                                <a href="{{ route('jobs.create') }}" class="btn btn-primary">
+                                                    <i class="bi bi-plus-lg"></i> Új munka létrehozása
+                                                </a>
+                                            </div>
+                                           </div>
+                                    @endif
+                                @else
+                                    <div class="alert alert-warning">
+                                        You are not authorized to post jobs.
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                    <!-- End Joblisting -->
     </body>
 </html>

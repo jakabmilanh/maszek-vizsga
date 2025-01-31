@@ -5,26 +5,38 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasFactory, SoftDeletes, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
-    protected $fillable = [
-        'username',
-        'email',
-        'password',
-        'telephone',
-        'role',
-        'profile_picture',
-        'profession_pictures',
-        'bio',
+    protected $fillable = ['username', 'email', 'password', 'profile_picture', 'profession_pictures', 'bio', 'role', 'telephone'];
+
+    protected $casts = [
+        'profession_pictures' => 'array',
     ];
+
+    public function jobs()
+    {
+        return $this->hasMany(Job::class, 'employer_id');
+    }
+
+    public function applications()
+    {
+        return $this->hasMany(Application::class, 'employee_id');
+    }
+
+    public function reviewsGiven()
+    {
+        return $this->hasMany(Review::class, 'reviewer_id');
+    }
+
+    public function reviewsReceived()
+    {
+        return $this->hasMany(Review::class, 'reviewee_id');
+    }
 
     /**
      * The attributes that should be hidden for serialization.
@@ -48,4 +60,5 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
 }

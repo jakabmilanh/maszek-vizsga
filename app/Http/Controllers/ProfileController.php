@@ -16,12 +16,13 @@ class ProfileController extends Controller
     /**
      * Display the user's profile form.
      */
-    public function edit(Request $request, ): View
-    {
-        return view('profile.edit', [
-            'user' => $request->user(),
-        ]);
-    }
+    public function edit(Request $request): View
+{
+    $user = $request->user();
+    $jobs = $user->jobs; // Assuming the User model has a jobs() relationship
+
+    return view('profile.edit', compact('user', 'jobs'));
+}
 
     public function update(ProfileUpdateRequest $request, User $user)
 {
@@ -37,7 +38,7 @@ class ProfileController extends Controller
         'username' => $request->input('username'),
         'email' => $request->input('email'),
         'telephone' => $request->input('telephone'),
-        'bio' => $request->input('bio', null), 
+        'bio' => $request->input('bio', null),
     ]);
 
     if ($request->hasFile('profile_picture')) {

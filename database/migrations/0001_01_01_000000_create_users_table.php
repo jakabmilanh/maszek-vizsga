@@ -3,9 +3,11 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 return new class extends Migration
 {
+    use SoftDeletes;
     /**
      * Run the migrations.
      */
@@ -19,9 +21,10 @@ return new class extends Migration
             $table->string('profile_picture')->nullable();
             $table->json('profession_pictures')->nullable();
             $table->text('bio')->nullable();
-            $table->enum('role', ['Munkáltató', 'Munkavállaló']);
+            $table->enum('role', ['Munkáltató', 'Munkavállaló', 'Admin']);
             $table->string('telephone', 20);
             $table->rememberToken();
+            $table->softDeletes();
             $table->timestamps();
         });
 

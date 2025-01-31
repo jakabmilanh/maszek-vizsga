@@ -124,6 +124,17 @@ position: relative;
 .btn:focus {
   box-shadow: none;
 }
+.btn-success {
+    background: #218004;
+    border-color: #218004 !important;
+  }
+  .btn-success:hover, .btn-success:focus, .btn-success:active, .btn-success.active, .btn-success.focus, .btn-success:not(:disabled):not(.disabled):active, .btn-success:not(:disabled):not(.disabled):active:focus,
+  .btn-success .open > .dropdown-toggle.btn-success {
+    background: #218004;
+    border-color: #218004;
+    box-shadow: 0px 8px 20px -6px #195f03;
+    transform: translateY(-6px);
+  }
 
 .btn-primary {
   background: #8A0779;
