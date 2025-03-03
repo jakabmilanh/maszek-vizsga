@@ -220,14 +220,15 @@
                                     @else
                                         <!-- List of jobs -->
                                         <div class="table-responsive">
-                                            <table class="table table-bordered">
-                                                <thead class="table-dark">
+                                            <table class="table">
+                                                <thead class="table-brigth">
                                                     <tr>
-                                                        <th>Title</th>
-                                                        <th>Category</th>
-                                                        <th>Location</th>
-                                                        <th>Posted On</th>
-                                                        <th>Actions</th>
+                                                        <th>Cím</th>
+                                                        <th>Kategória</th>
+                                                        <th>Fizetés</th>
+                                                        <th>Cím, helyszín</th>
+                                                        <th>Meghírdetve</th>
+                                                        <th>Funkciók</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -235,15 +236,17 @@
                                                         <tr>
                                                             <td>{{ $job->title }}</td>
                                                             <td>{{ $job->category }}</td>
+                                                            <td>{{ $job->salary }} Ft/óra</td>
                                                             <td>{{ $job->location }}</td>
                                                             <td>{{ $job->created_at->format('Y-m-d') }}</td>
                                                             <td>
-                                                                <a href="{{ route('jobs.edit', $job->job_id) }}" class="btn btn-warning btn-sm">
+                                                                <a href="{{ route('jobs.edit', $job->id) }}" class="btn btn-warning btn-sm">
                                                                     <i class="bi bi-pencil"></i> Edit
                                                                 </a>
-                                                                <form action="{{ route('jobs.destroy', $job->job_id) }}" method="POST" class="d-inline">
+                                                                <form action="{{ route('jobs.destroy') }}" method="POST" class="d-inline">
                                                                     @csrf
                                                                     @method('DELETE')
+                                                                    <input type="hidden" name="id" value="{{ $job->job_id }}"> <!-- Send ID inside request -->
                                                                     <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this job?');">
                                                                         <i class="bi bi-trash"></i> Delete
                                                                     </button>
@@ -253,15 +256,15 @@
                                                     @endforeach
                                                 </tbody>
                                             </table>
-                                                <a href="{{ route('jobs.create') }}" class="btn btn-primary">
-                                                    <i class="bi bi-plus-lg"></i> Új munka létrehozása
-                                                </a>
-                                            </div>
-                                           </div>
+                                            <a href="{{ route('jobs.create') }}" class="btn btn-primary">
+                                                <i class="bi bi-plus-lg"></i> Új munka létrehozása
+                                            </a>
+                                        </div>
+
                                     @endif
                                 @else
                                     <div class="alert alert-warning">
-                                        You are not authorized to post jobs.
+
                                     </div>
                                 @endif
                             </div>
