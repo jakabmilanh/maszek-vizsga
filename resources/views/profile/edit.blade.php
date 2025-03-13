@@ -246,8 +246,8 @@
                                                                 <form action="{{ route('jobs.destroy') }}" method="POST" class="d-inline">
                                                                     @csrf
                                                                     @method('DELETE')
-                                                                    <input type="hidden" name="id" value="{{ $job->job_id }}"> <!-- Send ID inside request -->
-                                                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this job?');">
+                                                                    <input type="hidden" name="job_id" value="{{ $job->job_id }}"> <!-- Send ID inside request -->
+                                                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Biztosan törli ezt az állás hírdetést?');">
                                                                         <i class="bi bi-trash"></i> Delete
                                                                     </button>
                                                                 </form>

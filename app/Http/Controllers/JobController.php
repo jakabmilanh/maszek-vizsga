@@ -41,11 +41,10 @@ class JobController extends Controller
     }
     public function destroy(Request $request)
 {
-    // Use job_id instead of id to find the job
-    $job = Job::where('job_id', $request->id)->firstOrFail(); // Find the job by job_id
-    $job->delete(); // Delete the job
-
+    Job::where('job_id', $request->job_id)->delete();
+    // Redirect back with a success message
     return redirect()->route('profile.edit')->with('success', 'Job deleted successfully.');
+
 }
 
 
