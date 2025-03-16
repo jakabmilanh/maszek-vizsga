@@ -224,40 +224,51 @@
                 <!--end row-->
                 <div class="row justify-content-center py-5 gy-5 mx-1">
                     @foreach($jobs as $job)
-                        <div class="card job-box col-lg-4 col-md-5 p-3">
-                            <h5>{{ $job->title }}</h5>
-                            <p class="job-posted-time">
-                                <i class="bi bi-clock icon-color-primary"></i>
-                                <a class="text-muted job-date">
-                                    Meghírdetve {{ \Carbon\Carbon::parse($job->created_at)->diffForHumans() }}
-                                </a>
-                            </p>
-                            <div class="row">
-                                <div class="col-md-7">
-                                    <h6 class="job-schedule-full">{{ $job->category }}</h6>
-                                </div>
-                                <div class="col-md-5 d-flex align-items-start mt-1">
-                                    <h6 class="mb-0">
-                                        <i class="bi bi-cash icon-color-primary"></i>
-                                        {{ number_format($job->salary, 2) }} Ft/óra
-                                    </h6>
-                                </div>
-                            </div>
-                            <div class="border-top mt-2">
-                                <div class="row job-poster-data">
-                                    <div class="col-md-4 justify-content-center d-flex align-items-center border rounded">
-                                        <img src="images/facebook.webp" alt="Company Logo" height="50">
-                                    </div>
-                                    <div class="col-md-8 mt-1">
-                                        <h5>{{ $job->employer->username }}</h5> <!-- Example employer, replace if needed -->
-                                        <h6 class="justify-content-start">
-                                            <i class="bi bi-geo-alt-fill icon-color-primary"></i>
-                                            <a class="text-muted">{{ $job->location }}</a>
-                                        </h6>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="card job-box col-lg-4 col-md-5 p-3"
+                    onclick="window.location.href='{{ route('jobs.show', ['id' => $job->job_id]) }}'"
+                    style="cursor: pointer; transition: all 0.3s ease;"
+                    onmouseover="this.style.transform='translateY(-5px)'"
+                    onmouseout="this.style.transform='none'">
+
+                   <!-- Card content remains the same -->
+                   <h5>{{ $job->title }}</h5>
+                   <p class="job-posted-time">
+                       <i class="bi bi-clock icon-color-primary"></i>
+                       <a class="text-muted job-date">
+                           Meghírdetve {{ \Carbon\Carbon::parse($job->created_at)->diffForHumans() }}
+                       </a>
+                   </p>
+                   <div class="row">
+                       <div class="col-md-7">
+                           <h6 class="job-schedule-full">{{ $job->category }}</h6>
+                       </div>
+                       <div class="col-md-5 d-flex align-items-start mt-1">
+                           <h6 class="mb-0">
+                               <i class="bi bi-cash icon-color-primary"></i>
+                               {{ number_format($job->salary, 2) }}
+                               @if(in_array($job->category, ['Teljes munkaidős', 'Részmunkaidős', 'Több alkalom']))
+                                   Ft/óra
+                               @else
+                                   Ft
+                               @endif
+                           </h6>
+                       </div>
+                   </div>
+                   <div class="border-top mt-2">
+                       <div class="row job-poster-data">
+                           <div class="col-md-4 justify-content-center d-flex align-items-center border rounded">
+                               <img src="images/facebook.webp" alt="Company Logo" height="50">
+                           </div>
+                           <div class="col-md-8 mt-1">
+                               <h5>{{ $job->employer->username }}</h5>
+                               <h6 class="justify-content-start">
+                                   <i class="bi bi-geo-alt-fill icon-color-primary"></i>
+                                   <a class="text-muted">{{ $job->location }}</a>
+                               </h6>
+                           </div>
+                       </div>
+                   </div>
+               </div>
                     @endforeach
                 </div>
 

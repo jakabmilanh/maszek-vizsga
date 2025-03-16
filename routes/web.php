@@ -11,6 +11,8 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::get('/home#contact', [HomeController::class, 'index'])->name('home#kapcsolat');
 
+Route::get('/jobs/show/{id}', [JobController::class, 'show'])->name('jobs.show');
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/profile/{user}', [ProfileController::class, 'update'])->name('profile.update');
@@ -18,7 +20,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/jobs/create', [JobController::class, 'create'])->name('jobs.create');
     Route::post('/profile', [JobController::class, 'store'])->name('jobs.store');
-    Route::put('/jobs', [JobController::class, 'update'])->name('jobs.edit');
+    Route::get('/jobs/edit/{id}', [JobController::class, 'edit'])->name('jobs.edit');
+    Route::put('/jobs/update/{id}', [JobController::class, 'update'])->name('jobs.update');
     Route::delete('/jobs', [JobController::class, 'destroy'])->name('jobs.destroy');
 
 

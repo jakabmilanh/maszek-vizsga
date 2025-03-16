@@ -236,21 +236,30 @@
                                                         <tr>
                                                             <td>{{ $job->title }}</td>
                                                             <td>{{ $job->category }}</td>
-                                                            <td>{{ $job->salary }} Ft/óra</td>
+                                                            <td>
+                                                                {{ $job->salary }}
+                                                                @if(in_array($job->category, ['Teljes munkaidős', 'Részmunkaidős', 'Több alkalom']))
+                                                                    Ft/óra
+                                                                @else
+                                                                    Ft
+                                                                @endif
+                                                            </td>
                                                             <td>{{ $job->location }}</td>
                                                             <td>{{ $job->created_at->format('Y-m-d') }}</td>
-                                                            <td>
-                                                                <a href="{{ route('jobs.edit', $job->id) }}" class="btn btn-warning btn-sm">
-                                                                    <i class="bi bi-pencil"></i> Edit
-                                                                </a>
-                                                                <form action="{{ route('jobs.destroy') }}" method="POST" class="d-inline">
-                                                                    @csrf
-                                                                    @method('DELETE')
-                                                                    <input type="hidden" name="job_id" value="{{ $job->job_id }}"> <!-- Send ID inside request -->
-                                                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Biztosan törli ezt az állás hírdetést?');">
-                                                                        <i class="bi bi-trash"></i> Delete
-                                                                    </button>
-                                                                </form>
+                                                            <td class="text-end">
+                                                                <div class="d-flex justify-content-end gap-2">
+                                                                    <a href="{{ route('jobs.edit', ['id' => $job->job_id]) }}" class="btn btn-outline-primary rounded-pill">
+                                                                        <i class="bi bi-pencil"></i> Szerkesztés
+                                                                    </a>
+                                                                    <form action="{{ route('jobs.destroy') }}" method="POST" class="d-inline">
+                                                                        @csrf
+                                                                        @method('DELETE')
+                                                                        <input type="hidden" name="job_id" value="{{ $job->job_id }}">
+                                                                        <button type="submit" class="btn btn-outline-primary rounded-pill" onclick="return confirm('Biztosan törli ezt az állás hírdetést?');">
+                                                                            <i class="bi bi-trash"></i> Törlés
+                                                                        </button>
+                                                                    </form>
+                                                                </div>
                                                             </td>
                                                         </tr>
                                                     @endforeach

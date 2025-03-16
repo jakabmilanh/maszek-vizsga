@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Job extends Model
 {
     use HasFactory, SoftDeletes;
-
+    protected $primaryKey = 'job_id';
     protected $fillable = ['title', 'description', 'location', 'category', 'salary', 'status', 'employer_id'];
 
     public function employer()

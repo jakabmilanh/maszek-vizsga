@@ -12,6 +12,48 @@ class JobController extends Controller
     {
         return view('jobs.create');
     }
+    public function show($id)
+    {
+        $job = Job::where('job_id', $id)->firstOrFail();
+        return view('jobs.show', compact('job'));
+    }
+    public function edit($id)
+        {
+            $job = Job::where('job_id', $id)->firstOrFail();
+
+            // Verify job belongs to the authenticated employer
+            if ($job->employer_id != Auth::id()) {
+                return redirect()->route('home');
+            }
+
+            return view('jobs.edit', compact('job'));
+        }
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'category' => 'required|string',
+            'location' => 'required|string',
+            'salary' => 'required|numeric|min:0',
+            'description' => 'required|string',
+        ]);
+
+
+        $job = Job::where('job_id', $id)->firstOrFail();
+
+        // Update the job fields
+        $job->update([
+            'title' => $request->title,
+            'category' => $request->category,
+            'location' => $request->location,
+            'salary' => $request->salary,
+            'description' => $request->description,
+        ]);
+
+        return redirect()->route('profile.edit')->with('success', 'Job updated successfully!');
+
+    }
 
     public function store(Request $request)
     {
