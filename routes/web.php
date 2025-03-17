@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\JobController;
+use App\Http\Controllers\ApplicationController;
 
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -23,6 +24,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/jobs/edit/{id}', [JobController::class, 'edit'])->name('jobs.edit');
     Route::put('/jobs/update/{id}', [JobController::class, 'update'])->name('jobs.update');
     Route::delete('/jobs', [JobController::class, 'destroy'])->name('jobs.destroy');
+
+    Route::get('/jobs/{job}/apply', [ApplicationController::class, 'create'])->name('applications.create');
+
+    Route::post('/jobs/{job}/apply', [ApplicationController::class, 'store'])->name('applications.store');
+
+    Route::get('/application/thank-you', [ApplicationController::class, 'thankYou'])->name('applications.thankyou');
 
 
 });
