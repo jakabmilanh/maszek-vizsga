@@ -45,6 +45,12 @@ html {
 .bg-primary {
   background-color: #8A0779 !important;
 }
+.bg-warning {
+    background-color: #d69303 !important;
+  }
+  .bg-danger {
+    background-color: #95190C !important;
+  }
 
 .text-danger
 {
@@ -52,7 +58,11 @@ html {
 }
 .text-warning
 {
-    color: #e6a10d !important;
+    color: #d69303 !important;
+}
+.text-success
+{
+    color: #198754;
 }
 
 
@@ -92,6 +102,9 @@ position: relative;
     color: #5a064f;
 }
 
+.fw-small {
+    font-weight: 400;
+  }
 
 .fw-medium {
   font-weight: 500;

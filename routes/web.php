@@ -14,7 +14,12 @@ Route::get('/home#contact', [HomeController::class, 'index'])->name('home#kapcso
 
 Route::get('/jobs/show/{id}', [JobController::class, 'show'])->name('jobs.show');
 
+Route::get('/profil/{user}', [ProfileController::class, 'show'])
+    ->name('profile.show');
+
 Route::middleware('auth')->group(function () {
+
+
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/profile/{user}', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -24,12 +29,15 @@ Route::middleware('auth')->group(function () {
     Route::get('/jobs/edit/{id}', [JobController::class, 'edit'])->name('jobs.edit');
     Route::put('/jobs/update/{id}', [JobController::class, 'update'])->name('jobs.update');
     Route::delete('/jobs', [JobController::class, 'destroy'])->name('jobs.destroy');
+    Route::put('/jobs/{job}/close', [JobController::class, 'close'])->name('jobs.close');
 
     Route::get('/jobs/{job}/apply', [ApplicationController::class, 'create'])->name('applications.create');
-
     Route::post('/jobs/{job}/apply', [ApplicationController::class, 'store'])->name('applications.store');
 
+
     Route::get('/application/thank-you', [ApplicationController::class, 'thankYou'])->name('applications.thankyou');
+    Route::put('/applications/{application}', [ApplicationController::class, 'update'])->name('applications.update');
+
 
 
 });

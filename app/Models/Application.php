@@ -14,9 +14,9 @@ class Application extends Model
     protected $fillable = ['job_id', 'employee_id', 'status', 'cover_letter'];
 
     public function job()
-    {
-        return $this->belongsTo(Job::class);
-    }
+        {
+            return $this->belongsTo(Job::class, 'job_id');
+        }
 
     public function employee()
     {

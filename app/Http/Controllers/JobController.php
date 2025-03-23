@@ -14,7 +14,9 @@ class JobController extends Controller
     }
     public function show($id)
     {
-        $job = Job::where('job_id', $id)->firstOrFail();
+        $job = Job::with(['applications.employee'])
+                 ->findOrFail($id);
+
         return view('jobs.show', compact('job'));
     }
     public function edit($id)
@@ -53,6 +55,20 @@ class JobController extends Controller
 
         return redirect()->route('profile.edit')->with('success', 'Job updated successfully!');
 
+    }
+    public function close(Job $job)
+    {
+        if ($job->employer_id !== Auth::id()) {
+            abort(403);
+        }
+
+        if ($job->status !== 'in progress') {
+            return back()->with('error', 'Csak folyamatban lévő munkát lehet lezárni!');
+        }
+
+        $job->update(['status' => 'closed']);
+
+        return back()->with('success', 'Munka sikeresen befejezve!');
     }
 
     public function store(Request $request)

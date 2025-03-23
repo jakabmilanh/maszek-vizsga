@@ -87,7 +87,7 @@
                                 </div>
                                 <div class="d-flex align-items-center">
                                     <i class="bi bi-info-circle me-2 fs-5 text-primary"></i>
-                                    <span class="badge bg-{{
+                                    <span class="badge fw-small bg-{{
                                         $job->status === 'open' ? 'success' :
                                         ($job->status === 'in progress' ? 'warning' : 'danger')
                                     }}">
@@ -127,21 +127,70 @@
                         </div>
 
                         <div class="mt-4">
-                            <h5 class="mb-3 text-primary">Elvárások</h5>
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item d-flex align-items-center">
-                                    <i class="bi bi-check2-circle me-2 text-success"></i>
-                                    Minimum 2 év releváns tapasztalat
-                                </li>
-                                <li class="list-group-item d-flex align-items-center">
-                                    <i class="bi bi-check2-circle me-2 text-success"></i>
-                                    Angol nyelvtudás (középfok)
-                                </li>
-                                <li class="list-group-item d-flex align-items-center">
-                                    <i class="bi bi-check2-circle me-2 text-success"></i>
-                                    Excel ismeret
-                                </li>
-                            </ul>
+                            <h5 class="mb-3 text-primary">Jelentkezések</h5>
+                            @if($job->applications->count() > 0)
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <td>Felhasználónév</td>
+                                                <td>Státusz</td>
+                                                <td>Jelentkezés ideje</td>
+                                                <td>Fiók</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach($job->applications as $application)
+                                            <tr>
+                                                <td>
+                                                    <div class="d-flex align-items-center">
+                                                        <div>
+                                                            <div>
+                                                                {{ $application->employee->username }}
+                                                                @if($application->employee_id === Auth::id())
+                                                                    <span class="text-primary ms-2">(Te)</span>
+                                                                @endif
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <span class="badge fw-small  bg-{{
+                                                        $application->status === 'accepted' ? 'success' :
+                                                        ($application->status === 'pending' ? 'warning' : 'danger')
+                                                    }}">
+                                                        <i class="bi bi-{{
+                                                            $application->status === 'accepted' ? 'check-circle' :
+                                                            ($application->status === 'pending' ? 'clock-history' : 'x-circle')
+                                                        }} me-1"></i>
+                                                        @switch($application->status)
+                                                            @case('accepted') Elfogadva @break
+                                                            @case('pending') Elfogadásra vár @break
+                                                            @case('rejected') Elutasítva @break
+                                                        @endswitch
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    {{ $application->created_at->format('Y.m.d - H:i') }}
+                                                </td>
+                                                <td>
+                                                    <a href="{{ route('profile.show', $application->employee->id) }}"
+                                                       class="text-primary"
+                                                       title="Profil megtekintése">
+                                                        <i class="bi bi-person-lines-fill"></i> Megtekintés
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            @else
+                                <div class="alert alert-info">
+                                    <i class="bi bi-info-circle me-2"></i>
+                                    Még nincsenek jelentkezők erre az állásra.
+                                </div>
+                            @endif
                         </div>
                     </div>
                     <div class="card-footer bg-light">
@@ -154,7 +203,7 @@
                                     <i class="bi bi-person-check me-2"></i>Ez a te hirdetésed
                                 </button>
                             @else
-                                @if($job->status !== 'open')
+                                @if($job->status == 'closed')
                                     <button class="btn btn-outline-secondary" disabled>
                                         <i class="bi bi-x-circle me-2"></i>Nem elérhető
                                     </button>
@@ -169,7 +218,9 @@
                                         <button class="btn btn-outline-primary" disabled>
                                             <i class="bi bi-{{ $application->status === 'accepted' ? 'check2-circle' : 'clock' }} me-2"></i>
                                             @if($application->status === 'accepted')
-                                                Jelentkezésed elfogadtuk
+                                                Jelentkezésed elfogadva
+                                            @elseif ($application->status === 'rejected')
+                                                Jelentkezésed elutasítva
                                             @else
                                                 Jelentkezésed elfogadásra vár
                                             @endif
