@@ -33,31 +33,35 @@ class JobController extends Controller
             return view('jobs.edit', compact('job'));
         }
 
-    public function update(Request $request, $id)
-    {
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'category' => 'required|string',
-            'location' => 'required|string',
-            'salary' => 'required|numeric|min:0',
-            'description' => 'required|string',
-        ]);
+        public function update(Request $request, $id)
+        {
+            $request->validate([
+                'title' => 'required|string|max:255',
+                'category' => 'required|string',
+                'location' => 'required|string',
+                'salary' => 'required|numeric|min:0',
+                'description' => 'required|string',
+            ]);
 
+            // Find the job by ID
+            $job = Job::where('job_id', $id)->firstOrFail();
 
-        $job = Job::where('job_id', $id)->firstOrFail();
+            // Check if the job is open before updating
+            if ($job->status !== 'open') {
+                return redirect()->route('profile.edit')->with('error', 'You cannot update a closed or completed job.');
+            }
 
-        // Update the job fields
-        $job->update([
-            'title' => $request->title,
-            'category' => $request->category,
-            'location' => $request->location,
-            'salary' => $request->salary,
-            'description' => $request->description,
-        ]);
+            // Update the job fields
+            $job->update([
+                'title' => $request->title,
+                'category' => $request->category,
+                'location' => $request->location,
+                'salary' => $request->salary,
+                'description' => $request->description,
+            ]);
 
-        return redirect()->route('profile.edit')->with('success', 'Job updated successfully!');
-
-    }
+            return redirect()->route('profile.edit')->with('success', 'Job updated successfully!');
+        }
     public function close(Job $job)
     {
         if ($job->employer_id !== Auth::id()) {
@@ -99,13 +103,19 @@ class JobController extends Controller
 
         return redirect()->route('profile.edit')->with('success', 'Job posted successfully!');
     }
-    public function destroy(Request $request)
-        {
-            Job::where('job_id', $request->job_id)->delete();
-            // Redirect back with a success message
-            return redirect()->route('profile.edit')->with('success', 'Job deleted successfully.');
-
+    public function destroy(Job $job)
+    {
+        // Check if the job is open before deleting
+        if ($job->status !== 'open') {
+            return redirect()->route('profile.edit')->with('error', 'You cannot delete a closed or completed job.');
         }
+
+        // Delete the job
+        $job->delete();
+
+        // Redirect back with a success message
+        return redirect()->route('profile.edit')->with('success', 'Job deleted successfully.');
+    }
 
         public function search(Request $request)
         {

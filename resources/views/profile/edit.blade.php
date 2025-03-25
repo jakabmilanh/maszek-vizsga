@@ -280,10 +280,9 @@
                                                         <form action="{{ route('jobs.destroy', $job) }}" method="POST">
                                                             @csrf
                                                             @method('DELETE')
-                                                            <a type="submit" class="text-danger"
-                                                               onclick="return confirm('Biztosan törli ezt az állás hírdetést?');">
+                                                            <button type="submit" class="text-danger border-none" onclick="return confirm('Biztosan törli ezt az állás hírdetést?');" style="border: none; background-color: white;">
                                                                 <i class="bi bi-trash"></i> Törlés
-                                                            </a>
+                                                            </button>
                                                         </form>
                                                     @else
                                                         <!-- If the job is not open, show a message or disable the buttons -->
@@ -350,25 +349,22 @@
                                                                                                 </button>
                                                                                             </form>
                                                                                         @else
-                                                                                            @if($application->status === 'accepted' && $job->status === 'in progress')
-                                                                                                <!-- Complete Job button -->
-                                                                                                <form method="POST" action="{{ route('jobs.close', $job) }}">
-                                                                                                    @csrf
-                                                                                                    @method('PUT')
-                                                                                                    <button type="submit" class="btn  text-success p-0">
-                                                                                                        <i class="bi bi-check"></i> Munka befejezése
-                                                                                                    </button>
-                                                                                                </form>
-                                                                                            @else
-                                                                                                @if($application->status === 'accepted' && $job->status === 'closed')
-                                                                                                    <!-- Change this part -->
-                                                                                                    <a href="{{ route('reviews.create', ['job' => $job, 'user' => $job->employer]) }}" class="text-primary">
-                                                                                                        <i class="bi bi-star"></i> Írj egy véleményt
-                                                                                                    </a>
+                                                                                                @if($application->status === 'accepted' && $application->job->status === 'closed')
+                                                                                                    @if(Auth::user()->reviewsGiven()
+                                                                                                            ->where('job_id', $application->job->job_id)
+                                                                                                            ->where('reviewee_id', $application->employee->id)
+                                                                                                            ->exists())
+                                                                                                        <span class="text-muted">
+                                                                                                            <i class="bi bi-star"></i> Már írtál véleményt
+                                                                                                        </span>
+                                                                                                    @else
+                                                                                                        <a href="{{ route('reviews.create', ['job' => $application->job, 'user' => $application->employee]) }}" class="text-primary">
+                                                                                                            <i class="bi bi-star"></i> Írj egy véleményt
+                                                                                                        </a>
+                                                                                                    @endif
                                                                                                 @else
-                                                                                                    <span class="text-muted"> <i class="bi bi-x"></i> Művelet nem elérhető</span>
+                                                                                                    <span class="text-muted"><i class="bi bi-x"></i> Művelet nem elérhető</span>
                                                                                                 @endif
-                                                                                            @endif
                                                                                         @endif
                                                                                     </div>
                                                                                 </td>
@@ -460,23 +456,22 @@
                                             <td>{{ $application->created_at->format('Y.m.d - H:i') }}</td>
                                             <td>
                                                 <div class="d-flex gap-4">
-                                                    @if($application->status === 'pending')
-                                                        <form method="POST" action="{{ route('applications.cancel', $application) }}">
-                                                                @csrf
-                                                                @method('DELETE')
-                                                                <button type="submit" class="btn text-danger p-0"
-                                                                        onclick="return confirm('Biztosan visszavonod a jelentkezést?');">
-                                                                    <i class="bi bi-x-lg"></i> Jelentkezés visszavonása
-                                                                </button>
-                                                        </form>
-                                                        @elseif($application->status === 'accepted' && $application->job->status === 'closed')
-                                                            <a href="{{ route('reviews.create', ['job' => $application->job, 'user' => $application->job->employer]) }}"
-                                                            class="text-primary">
+                                                    @if($application->status === 'accepted' && $application->job->status === 'closed')
+                                                        @if(Auth::user()->reviewsGiven()
+                                                                ->where('job_id', $application->job->job_id)
+                                                                ->where('reviewee_id', $application->job->employer_id)
+                                                                ->exists())
+                                                            <span class="text-muted">
+                                                                <i class="bi bi-star"></i> Már írtál véleményt
+                                                            </span>
+                                                        @else
+                                                            <a href="{{ route('reviews.create', ['job' => $application->job, 'user' => $application->job->employer]) }}" class="text-primary">
                                                                 <i class="bi bi-star"></i> Írj egy véleményt
                                                             </a>
-                                                        @else
-                                                            <span class="text-muted"><i class="bi bi-x"></i> Művelet nem elérhető</span>
                                                         @endif
+                                                    @else
+                                                        <span class="text-muted"><i class="bi bi-x"></i> Művelet nem elérhető</span>
+                                                    @endif
                                                 </div>
                                             </td>
                                         </tr>
@@ -492,6 +487,54 @@
     </div>
 </div>
 <!-- End Joblisting -->
+<!-- Start Reviewlisting -->
+<div class="container-lg mb-5">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h3 class="text-primary">Vélemények</h3>
+                    @if($reviews->isEmpty())
+                        <div class="alert alert-info">
+                            <i class="bi bi-info-circle me-2"></i>
+                            Még nincs véleményed.
+                        </div>
+                    @else
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <td class="fw-medium">Felhasználónév</td>
+                                        <td class="fw-medium">Vélemény</td>
+                                        <td class="fw-medium">Értékelés</td>
+                                        <td class="fw-medium">Időpont</td>
+                                        <td class="fw-medium">Munka</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($reviews as $review)
+                                        <tr>
+                                            <td>{{ $review->reviewer->username }}</td>
+                                            <td>{{ $review->review_text }}</td>
+                                            <td>{{ $review->rating }} / 5</td>
+                                            <td>{{ $review->created_at->format('Y.m.d - H:i') }}</td>
+                                            <td>{{ $review->job->title }}</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="mt-3">
+                            <h3 class="text-primary">Összértékelés</h3>
+                            <p><i class="bi bi-star-fill text-primary"></i> {{ number_format($reviews->avg('rating'), 1) }} / 5</p>
+                        </div>
+                    @endif
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Reviewlisting -->
 
 
                     <!-- START FOOTER -->

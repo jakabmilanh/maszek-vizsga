@@ -24,9 +24,10 @@ class ProfileController extends Controller
     public function edit(Request $request): View
     {
         $user = $request->user();
+        $reviews = $user->reviewsGiven()->with('reviewer')->get();
         $jobs = $user->jobs; // Assuming the User model has a jobs() relationship
 
-        return view('profile.edit', compact('user', 'jobs'));
+        return view('profile.edit', compact('user', 'jobs', 'reviews'));
     }
 
     public function update(ProfileUpdateRequest $request, User $user)

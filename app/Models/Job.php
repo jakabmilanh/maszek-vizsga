@@ -21,4 +21,8 @@ class Job extends Model
     {
         return $this->hasMany(Application::class, 'job_id');
     }
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
 }

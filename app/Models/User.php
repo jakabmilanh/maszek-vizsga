@@ -33,6 +33,7 @@ class User extends Authenticatable
         return $this->hasMany(Review::class, 'reviewer_id');
     }
 
+
     public function reviewsReceived()
     {
         return $this->hasMany(Review::class, 'reviewee_id');

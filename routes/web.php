@@ -29,7 +29,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/profile', [JobController::class, 'store'])->name('jobs.store');
     Route::get('/jobs/edit/{id}', [JobController::class, 'edit'])->name('jobs.edit');
     Route::put('/jobs/update/{id}', [JobController::class, 'update'])->name('jobs.update');
-    Route::delete('/jobs', [JobController::class, 'destroy'])->name('jobs.destroy');
+    Route::delete('/jobs/{job}', [JobController::class, 'destroy'])->name('jobs.destroy');
     Route::put('/jobs/{job}/close', [JobController::class, 'close'])->name('jobs.close');
     Route::get('/jobs/search', [JobController::class, 'search'])->name('jobs.search');
 
@@ -40,6 +40,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/applications/{application}/cancel', [ApplicationController::class, 'cancel'])->name('applications.cancel');
 
     Route::get('/reviews/create/{job}/{user}', [ReviewController::class, 'create'])->name('reviews.create');
+    Route::post('/jobs/{job}/reviews/{user}', [ReviewController::class, 'store'])->name('reviews.store');
 
 
 
