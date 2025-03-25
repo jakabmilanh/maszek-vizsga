@@ -513,13 +513,13 @@
                                 </thead>
                                 <tbody>
                                     @foreach($reviews as $review)
-                                        <tr>
-                                            <td>{{ $review->reviewer->username }}</td>
-                                            <td>{{ $review->review_text }}</td>
-                                            <td>{{ $review->rating }} / 5</td>
-                                            <td>{{ $review->created_at->format('Y.m.d - H:i') }}</td>
-                                            <td>{{ $review->job->title }}</td>
-                                        </tr>
+                                    <tr>
+                                        <td class="text-primary"><i class="bi bi-person text-primary"></i> <a href="{{ route('profile.show', ['user' => $review->reviewer->id]) }}" class="text-primary">{{ $review->reviewer->username }}</a></td>
+                                        <td>{{ $review->review_text }}</td>
+                                        <td>{{ $review->rating }} / 5</td>
+                                        <td>{{ $review->created_at->format('Y.m.d - H:i') }}</td>
+                                        <td ><i class="bi bi-file-earmark text-primary"> <a href="{{ route('jobs.show', ['id' => $review->job->job_id]) }}" class="text-primary">{{ $review->job->title }}</a></td>
+                                    </tr>
                                     @endforeach
                                 </tbody>
                             </table>
