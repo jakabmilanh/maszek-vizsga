@@ -203,7 +203,7 @@
                                     <i class="bi bi-person-check me-2"></i>Ez a te hirdetésed
                                 </button>
                             @else
-                                @if($job->status == 'closed')
+                                @if($job->status != 'open')
                                     <button class="btn btn-outline-secondary" disabled>
                                         <i class="bi bi-x-circle me-2"></i>Nem elérhető
                                     </button>

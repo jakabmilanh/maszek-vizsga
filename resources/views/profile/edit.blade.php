@@ -287,12 +287,12 @@
                                                                                     </a>
                                                                                 </td>
                                                                                 <td>
-                                                                                    <span class="badge bg-{{
+                                                                                    <span class="fw-small badge bg-{{
                                                                                         $application->status === 'accepted' ? 'success' :
                                                                                         ($application->status === 'rejected' ? 'danger' : 'warning')
                                                                                     }}">
                                                                                         {{ $application->status === 'accepted' ? 'Elfogadva' :
-                                                                                        ($application->status === 'rejected' ? 'Elutasítva' : 'Folyamatban') }}
+                                                                                        ($application->status === 'rejected' ? 'Elutasítva' : 'Elfogadásra vár') }}
                                                                                     </span>
                                                                                 </td>
                                                                                 <td>{{ $application->created_at->format('Y.m.d - H:i') }}</td>
