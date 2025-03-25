@@ -12,6 +12,7 @@ class JobController extends Controller
     {
         return view('jobs.create');
     }
+
     public function show($id)
     {
         $job = Job::with(['applications.employee'])
@@ -19,6 +20,7 @@ class JobController extends Controller
 
         return view('jobs.show', compact('job'));
     }
+
     public function edit($id)
         {
             $job = Job::where('job_id', $id)->firstOrFail();
@@ -98,12 +100,44 @@ class JobController extends Controller
         return redirect()->route('profile.edit')->with('success', 'Job posted successfully!');
     }
     public function destroy(Request $request)
-{
-    Job::where('job_id', $request->job_id)->delete();
-    // Redirect back with a success message
-    return redirect()->route('profile.edit')->with('success', 'Job deleted successfully.');
+        {
+            Job::where('job_id', $request->job_id)->delete();
+            // Redirect back with a success message
+            return redirect()->route('profile.edit')->with('success', 'Job deleted successfully.');
 
-}
+        }
+
+        public function search(Request $request)
+        {
+            // Get all the jobs
+            $jobs = Job::query();
+
+            // Apply filters based on GET parameters
+            if ($request->has('keyword') && $request->input('keyword') != '') {
+                $jobs = $jobs->where('title', 'like', '%' . $request->input('keyword') . '%');
+            }
+
+            if ($request->has('category') && $request->input('category') != '') {
+                $jobs = $jobs->where('category', $request->input('category'));
+            }
+
+            if ($request->has('location') && $request->input('location') != '') {
+                $jobs = $jobs->where('location', 'like', '%' . $request->input('location') . '%');
+            }
+
+            if ($request->has('salary_min') && $request->input('salary_min') != '') {
+                $jobs = $jobs->where('salary', '>=', $request->input('salary_min'));
+            }
+
+            if ($request->has('salary_max') && $request->input('salary_max') != '') {
+                $jobs = $jobs->where('salary', '<=', $request->input('salary_max'));
+            }
+
+            // Paginate the results
+            $jobs = $jobs->orderBy('created_at', 'desc')->paginate(10);
+
+            return view('jobs.search', compact('jobs'));
+        }
 
 
 }

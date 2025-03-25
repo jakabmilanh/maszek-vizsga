@@ -36,7 +36,7 @@
                             <a class="nav-link" href="">Rólunk</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="">Elérhető munkák</a>
+                            <a class="nav-link" href={{route('jobs.search')}}>Elérhető munkák</a>
                         </li>
 
 
@@ -239,25 +239,26 @@
                        </a>
                    </p>
                    <div class="row">
-                       <div class="col-md-7">
-                           <h6 class="job-schedule-full">{{ $job->category }}</h6>
-                       </div>
-                       <div class="col-md-5 d-flex align-items-start mt-1">
-                           <h6 class="mb-0">
-                               <i class="bi bi-cash icon-color-primary"></i>
-                               {{ number_format($job->salary, 2) }}
-                               @if(in_array($job->category, ['Teljes munkaidős', 'Részmunkaidős', 'Több alkalom']))
-                                   Ft/óra
-                               @else
-                                   Ft
-                               @endif
-                           </h6>
-                       </div>
+                    <div class="col-md-6">
+                        <h6 class="job-schedule-full">{{ $job->category }}</h6>
+                    </div>
+                    <div class="col-md-6 d-flex align-items-start mt-1">
+                        <h6 class="mb-0 d-flex align-items-center flex-grow-1">
+                            <div>
+                                <i class="bi bi-cash icon-color-primary"></i> {{ number_format($job->salary, 0) }}
+                            </div>
+                            @if(in_array($job->category, ['Teljes munkaidős', 'Részmunkaidős', 'Több alkalom']))
+                                 <span class="ms-1"> Ft/óra</span>
+                            @else
+                            <span class="ms-1"> Ft</span>
+                            @endif
+                        </h6>
+                    </div>
                    </div>
                    <div class="border-top mt-2">
                        <div class="row job-poster-data">
                            <div class="col-md-4 justify-content-center d-flex align-items-center border rounded">
-                               <img src="images/facebook.webp" alt="Company Logo" height="50">
+                               <img src="images/facebook.webp" alt="Felhasználó Kép" height="50">
                            </div>
                            <div class="col-md-8 mt-1">
                                <h5>{{ $job->employer->username }}</h5>

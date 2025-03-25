@@ -36,7 +36,7 @@
                                 <a class="nav-link" href="">Rólunk</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="">Elérhető munkák</a>
+                                <a class="nav-link" href={{route('jobs.search')}}>Elérhető munkák</a>
                             </li>
 
 
@@ -209,24 +209,32 @@
             <div class="card shadow-sm">
                 <div class="card-body">
                     @if(Auth::user()->role === 'Munkáltató')
+                        <h3 class="text-primary">Hirdetések</h3>
                         @if($jobs->isEmpty())
-                            <div class="text-start p-4">
-                                <p class="text-muted">Még nem hoztál létre hírdetést.</p>
-                                <a href="{{ route('jobs.create') }}" class="btn btn-primary">
-                                    <i class="bi bi-plus-lg"></i> Új munkahírdetés
-                                </a>
+                            <div class="text-start mb-3">
+
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="alert alert-info mb-0 fw-small flex-grow-1">
+                                        <i class="bi bi-info-circle me-2"></i>
+                                        Még nem hírdettél meg egy állást sem.
+                                    </div>
+                                    <a href="{{ route('jobs.create') }}" class="btn btn-primary">
+                                        <i class="bi bi-plus-lg"></i> Új munkahírdetés
+                                    </a>
+                                </div>
                             </div>
                         @else
                             <div class="table-responsive">
                                 <table class="table">
                                     <thead class="table-brigth ">
-                                        <h3 class="text-primary">Hirdetések</h3>
+
                                         <tr>
                                             <td class="fw-medium">Cím</td>
                                             <td class="fw-medium">Kategória</td>
                                             <td class="fw-medium">Fizetés</td>
                                             <td class="fw-medium">Helyszín</td>
                                             <td class="fw-medium">Meghírdetve</td>
+                                            <td class="fw-medium">Munka státusz</td>
                                             <td class="fw-medium">Műveletek</td>
                                         </tr>
                                     </thead>
@@ -246,24 +254,41 @@
                                             <td>
                                                 {{ number_format($job->salary, 0, ',', ' ') }} Ft
                                                 @if(in_array($job->category, ['Teljes munkaidős', 'Részmunkaidős', 'Több alkalom']))
-                                                    /óra
+                                                /óra
                                                 @endif
                                             </td>
                                             <td>{{ $job->location }}</td>
                                             <td>{{ $job->created_at->format('Y.m.d - H:i') }}</td>
                                             <td>
+                                                <span class="badge fw-small bg-{{
+                                                    $job->status === 'open' ? 'success' :
+                                                    ($job->status === 'in progress' ? 'warning' : 'danger')
+                                                }}">
+                                                    {{ $job->status === 'open' ? 'Nyitott' :
+                                                      ($job->status === 'in progress' ? 'Folyamatban' : 'Lezárt') }}
+                                                </span>
+                                            </td>
+                                            <td>
                                                 <div class="d-flex gap-4">
-                                                    <a href="{{ route('jobs.edit', $job) }}" class="text-primary">
-                                                        <i class="bi bi-pencil"></i> Szerkesztés
-                                                    </a>
-                                                    <form action="{{ route('jobs.destroy', $job) }}" method="POST">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <a type="submit" class="text-danger"
-                                                           onclick="return confirm('Biztosan törli ezt az állás hírdetést?');">
-                                                            <i class="bi bi-trash"></i> Törlés
+                                                    @if($job->status === 'open') <!-- Check if the job is open -->
+                                                        <!-- Edit Button -->
+                                                        <a href="{{ route('jobs.edit', $job) }}" class="text-primary">
+                                                            <i class="bi bi-pencil"></i> Szerkesztés
                                                         </a>
-                                                    </form>
+
+                                                        <!-- Delete Button -->
+                                                        <form action="{{ route('jobs.destroy', $job) }}" method="POST">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <a type="submit" class="text-danger"
+                                                               onclick="return confirm('Biztosan törli ezt az állás hírdetést?');">
+                                                                <i class="bi bi-trash"></i> Törlés
+                                                            </a>
+                                                        </form>
+                                                    @else
+                                                        <!-- If the job is not open, show a message or disable the buttons -->
+                                                        <span class="text-muted"> <i class="bi bi-x"></i> Művelet nem elérhető</span>
+                                                    @endif
                                                 </div>
                                             </td>
                                         </tr>
@@ -272,10 +297,18 @@
                                         <tr>
                                             <td colspan="6" class="p-0">
                                                 <div class="collapse" id="applications-{{ $job->job_id }}">
-                                                    <div class="p-3 border-top">
+                                                    <div class="p-3">
                                                         @if($job->applications->count() > 0)
                                                         <div class="table-responsive">
                                                             <table class="table table-sm">
+                                                                <thead class="table">
+                                                                    <tr>
+                                                                        <td class="fw-medium">Felhasználónév</td>
+                                                                        <td class="fw-medium">Státusz</td>
+                                                                        <td class="fw-medium">Jelentkezés időpontja</td>
+                                                                        <td class="fw-medium">Műveletek</td>
+                                                                    </tr>
+                                                                </thead>
                                                                 <tbody>
                                                                     @foreach($job->applications as $application)
                                                                             <tr>
@@ -327,7 +360,14 @@
                                                                                                     </button>
                                                                                                 </form>
                                                                                             @else
-                                                                                                <span class="text-muted"> <i class="bi bi-x"></i> Művelet nem elérhető</span>
+                                                                                                @if($application->status === 'accepted' && $job->status === 'closed')
+                                                                                                    <!-- Change this part -->
+                                                                                                    <a href="{{ route('reviews.create', ['job' => $job, 'user' => $job->employer]) }}" class="text-primary">
+                                                                                                        <i class="bi bi-star"></i> Írj egy véleményt
+                                                                                                    </a>
+                                                                                                @else
+                                                                                                    <span class="text-muted"> <i class="bi bi-x"></i> Művelet nem elérhető</span>
+                                                                                                @endif
                                                                                             @endif
                                                                                         @endif
                                                                                     </div>
@@ -350,18 +390,102 @@
                                         @endforeach
                                     </tbody>
                                 </table>
-                                <div class="mt-4">
+                                <div class="mt-4 mb-4">
                                     <a href="{{ route('jobs.create') }}" class="btn btn-primary">
                                         <i class="bi bi-plus-lg"></i> Új hírdetés létrehozása
                                     </a>
                                 </div>
                             </div>
                         @endif
-                    @else
-                        <div class="alert alert-warning">
-                            <!-- Non-employer content -->
-                        </div>
                     @endif
+                    @php
+                        $userApplications = Auth::user()->applications()->with('job.employer')->get();
+                    @endphp
+
+                    <div class="table-responsive">
+                        <h3 class="text-primary">Jelentkezéseim</h3>
+                        @if($userApplications->isEmpty())
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="alert alert-info mb-0 fw-small flex-grow-1">
+                                    <i class="bi bi-info-circle me-2"></i>
+                                    Még nem jelentkeztél egy állásra sem.
+                                </div>
+                                <a href="{{ route('jobs.search') }}" class="btn btn-primary">
+                                    <i class="bi bi-search"></i> Hirdetések megtekintése
+                                </a>
+                            </div>
+                        @else
+                            <table class="table">
+                                <thead class="table-bright">
+                                    <tr>
+                                        <td class="fw-medium">Hirdetés címe</td>
+                                        <td class="fw-medium">Munkáltató</td>
+                                        <td class="fw-medium">Jelentkezés státusza</td>
+                                        <td class="fw-medium">Munka státusza</td>
+                                        <td class="fw-medium">Jelentkezés dátuma</td>
+                                        <td class="fw-medium">Műveletek</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($userApplications as $application)
+                                        <tr>
+                                            <td>
+                                                <a href="{{ route('jobs.show', $application->job) }}" class="text-primary">
+                                                    <i class="bi bi-file-earmark"></i> {{ $application->job->title }}
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <a href="{{ route('profile.show', $application->job->employer) }}" class="text-primary">
+                                                    <i class="bi bi-person"></i> {{ $application->job->employer->username }}
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <span class="fw-small badge bg-{{
+                                                    $application->status === 'accepted' ? 'success' :
+                                                    ($application->status === 'rejected' ? 'danger' : 'warning')
+                                                }}">
+                                                    {{ $application->status === 'accepted' ? 'Elfogadva' :
+                                                    ($application->status === 'rejected' ? 'Elutasítva' : 'Elfogadásra vár') }}
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span class="badge fw-small bg-{{
+                                                    $application->job->status === 'open' ? 'success' :
+                                                    ($application->job->status === 'in progress' ? 'warning' : 'danger')
+                                                }}">
+                                                    {{ $application->job->status === 'open' ? 'Nyitott' :
+                                                      ($application->job->status === 'in progress' ? 'Folyamatban' : 'Lezárt') }}
+                                                </span>
+                                            </td>
+                                            <td>{{ $application->created_at->format('Y.m.d - H:i') }}</td>
+                                            <td>
+                                                <div class="d-flex gap-4">
+                                                    @if($application->status === 'pending')
+                                                        <form method="POST" action="{{ route('applications.cancel', $application) }}">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button type="submit" class="btn text-danger p-0"
+                                                                        onclick="return confirm('Biztosan visszavonod a jelentkezést?');">
+                                                                    <i class="bi bi-x-lg"></i> Jelentkezés visszavonása
+                                                                </button>
+                                                        </form>
+                                                        @elseif($application->status === 'accepted' && $application->job->status === 'closed')
+                                                            <a href="{{ route('reviews.create', ['job' => $application->job, 'user' => $application->job->employer]) }}"
+                                                            class="text-primary">
+                                                                <i class="bi bi-star"></i> Írj egy véleményt
+                                                            </a>
+                                                        @else
+                                                            <span class="text-muted"><i class="bi bi-x"></i> Művelet nem elérhető</span>
+                                                        @endif
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        @endif
+                    </div>
+
                 </div>
             </div>
         </div>

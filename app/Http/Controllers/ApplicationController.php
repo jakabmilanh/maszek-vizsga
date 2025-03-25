@@ -39,6 +39,9 @@ class ApplicationController extends Controller
 
                 return back()->with('success', 'Státusz frissítve!');
             }
+
+
+
             public function create(Job $job)
             {
                 // Check if user is authenticated
@@ -65,6 +68,8 @@ class ApplicationController extends Controller
                     'user' => Auth::user()
                 ]);
             }
+
+
 
             public function store(Job $job, Request $request)
             {
@@ -108,6 +113,25 @@ class ApplicationController extends Controller
 
                 return redirect()->route('applications.thankyou');
             }
+
+
+            public function cancel(Application $application)
+                {
+                    // Ensure the authenticated user owns the application before canceling
+                    if (Auth::id() !== $application->employee_id) {
+                        return redirect()->back()->with('error', 'Nem jogosult a jelentkezés törlésére.');
+                    }
+
+                    // Check if the application can still be canceled (not already accepted)
+                    if ($application->status !== 'pending') {
+                        return redirect()->back()->with('error', 'Csak a függőben lévő jelentkezéseket lehet visszavonni.');
+                    }
+
+                    // Delete the application
+                    $application->delete();
+
+                    return redirect()->back()->with('success', 'A jelentkezés sikeresen visszavonva.');
+                }
 
             public function thankYou()
             {

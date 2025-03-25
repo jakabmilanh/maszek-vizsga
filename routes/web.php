@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\ApplicationController;
 
@@ -14,7 +15,7 @@ Route::get('/home#contact', [HomeController::class, 'index'])->name('home#kapcso
 
 Route::get('/jobs/show/{id}', [JobController::class, 'show'])->name('jobs.show');
 
-Route::get('/profil/{user}', [ProfileController::class, 'show'])
+Route::get('/profile/{user}', [ProfileController::class, 'show'])
     ->name('profile.show');
 
 Route::middleware('auth')->group(function () {
@@ -30,13 +31,15 @@ Route::middleware('auth')->group(function () {
     Route::put('/jobs/update/{id}', [JobController::class, 'update'])->name('jobs.update');
     Route::delete('/jobs', [JobController::class, 'destroy'])->name('jobs.destroy');
     Route::put('/jobs/{job}/close', [JobController::class, 'close'])->name('jobs.close');
+    Route::get('/jobs/search', [JobController::class, 'search'])->name('jobs.search');
 
     Route::get('/jobs/{job}/apply', [ApplicationController::class, 'create'])->name('applications.create');
     Route::post('/jobs/{job}/apply', [ApplicationController::class, 'store'])->name('applications.store');
-
-
     Route::get('/application/thank-you', [ApplicationController::class, 'thankYou'])->name('applications.thankyou');
     Route::put('/applications/{application}', [ApplicationController::class, 'update'])->name('applications.update');
+    Route::delete('/applications/{application}/cancel', [ApplicationController::class, 'cancel'])->name('applications.cancel');
+
+    Route::get('/reviews/create/{job}/{user}', [ReviewController::class, 'create'])->name('reviews.create');
 
 
 

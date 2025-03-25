@@ -25,7 +25,9 @@
                         <li class="nav-item"><a class="nav-link" href={{route('home')}}>Főoldal</a></li>
                         <li class="nav-item"><a class="nav-link" href={{route('home#kapcsolat')}}>Kapcsolat</a></li>
                         <li class="nav-item"><a class="nav-link" href="">Rólunk</a></li>
-                        <li class="nav-item"><a class="nav-link" href="">Elérhető munkák</a></li>
+                        <li class="nav-item">
+                            <a class="nav-link" href={{route('jobs.search')}}>Elérhető munkák</a>
+                        </li>
                     </ul>
                     <div class="d-flex align-items-center">
                         @if (auth()->check())

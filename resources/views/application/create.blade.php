@@ -37,7 +37,7 @@
                             <a class="nav-link" href="">Rólunk</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="">Elérhető munkák</a>
+                            <a class="nav-link" href={{route('jobs.search')}}>Elérhető munkák</a>
                         </li>
 
 
@@ -142,10 +142,10 @@
                                                 @if($job->employer)
                                                 <div class="mt-4">
                                                     <h6 class="mb-2 text-primary">Hirdető</h6>
-                                                    <div class="d-flex align-items-center">
-                                                        <i class="bi bi-person-circle me-2"></i>
-                                                        <span>{{ $job->employer->username }}</span>
-                                                    </div>
+                                                    <a href="{{ route('profile.show', ['user' => $job->employer_id]) }}" class="d-flex align-items-center text-decoration-none text-primary">
+                                                        <i class="bi bi-person"></i>
+                                                        <span class="ms-1">{{ $job->employer->username }}</span>
+                                                    </a>
                                                 </div>
                                                 @endif
                                             </div>

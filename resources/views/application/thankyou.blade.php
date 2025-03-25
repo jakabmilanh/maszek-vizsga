@@ -77,7 +77,7 @@
                                 </div>
                                 <h2 class="mb-3">Köszönjük jelentkezésedet!</h2>
                                 <p class="text-muted mb-4">
-                                    Jelentkezésedet sikeresen fogadtuk. Mostmár felveheted a kapcsolatot a hírdetővel.
+                                    Jelentkezésedet sikeresen fogadtuk. Értesítést küldünk amennyiben a hírdető elfogadta.
                                 </p>
                                 <div class="d-grid gap-2 d-md-block">
                                     <a href="{{ route('home') }}" class="btn btn-primary">
