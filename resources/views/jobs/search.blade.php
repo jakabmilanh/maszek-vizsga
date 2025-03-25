@@ -37,7 +37,7 @@
                             <a class="nav-link" href="">Rólunk</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href={{route('jobs.search')}}>Elérhető munkák</a>
+                            <a class="nav-link active" href={{route('jobs.search')}}>Elérhető munkák</a>
                         </li>
 
 
