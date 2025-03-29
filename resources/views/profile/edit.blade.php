@@ -336,7 +336,7 @@
                                                                                                 @csrf
                                                                                                 @method('PUT')
                                                                                                 <input type="hidden" name="status" value="accepted">
-                                                                                                <button type="submit" class="btn  text-success p-0">
+                                                                                                <button type="submit" class="btn text-success p-0">
                                                                                                     <i class="bi bi-check-lg"></i> Elfogadás
                                                                                                 </button>
                                                                                             </form>
@@ -348,23 +348,31 @@
                                                                                                     <i class="bi bi-x-lg"></i> Elutasítás
                                                                                                 </button>
                                                                                             </form>
-                                                                                        @else
-                                                                                                @if($application->status === 'accepted' && $application->job->status === 'closed')
-                                                                                                    @if(Auth::user()->reviewsGiven()
-                                                                                                            ->where('job_id', $application->job->job_id)
-                                                                                                            ->where('reviewee_id', $application->employee->id)
-                                                                                                            ->exists())
-                                                                                                        <span class="text-muted">
-                                                                                                            <i class="bi bi-star"></i> Már írtál véleményt
-                                                                                                        </span>
-                                                                                                    @else
-                                                                                                        <a href="{{ route('reviews.create', ['job' => $application->job, 'user' => $application->employee]) }}" class="text-primary">
-                                                                                                            <i class="bi bi-star"></i> Írj egy véleményt
-                                                                                                        </a>
-                                                                                                    @endif
+                                                                                        @elseif($application->status === 'accepted')
+                                                                                            @if($application->job->status === 'in progress')
+                                                                                                <form method="POST" action="{{ route('jobs.close', $application->job) }}">
+                                                                                                    @csrf
+                                                                                                    @method('PUT')
+                                                                                                    <button type="submit" class="btn text-success p-0">
+                                                                                                        <i class="bi bi-check-lg"></i> Munka lezárása
+                                                                                                    </button>
+                                                                                                </form>
+                                                                                            @elseif($application->job->status === 'closed')
+                                                                                                @if(Auth::user()->reviewsGiven()
+                                                                                                        ->where('job_id', $application->job->id)
+                                                                                                        ->where('reviewee_id', $application->employee->id)
+                                                                                                        ->exists())
+                                                                                                    <span class="text-muted">
+                                                                                                        <i class="bi bi-star"></i> Már írtál véleményt
+                                                                                                    </span>
                                                                                                 @else
-                                                                                                    <span class="text-muted"><i class="bi bi-x"></i> Művelet nem elérhető</span>
+                                                                                                    <a href="{{ route('reviews.create', ['job' => $application->job, 'user' => $application->employee]) }}" class="text-primary">
+                                                                                                        <i class="bi bi-star"></i> Írj egy véleményt
+                                                                                                    </a>
                                                                                                 @endif
+                                                                                            @endif
+                                                                                        @else
+                                                                                            <span class="text-muted"><i class="bi bi-x"></i> Művelet nem elérhető</span>
                                                                                         @endif
                                                                                     </div>
                                                                                 </td>
