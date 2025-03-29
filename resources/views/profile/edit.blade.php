@@ -5,6 +5,7 @@
         <title>Maszek | Profil szerkesztése</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+
         @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
             @vite(['../../resources/css/app.css', 'resources/js/app.js',])
         @endif
@@ -305,6 +306,7 @@
                                                                         <td class="fw-medium">Felhasználónév</td>
                                                                         <td class="fw-medium">Státusz</td>
                                                                         <td class="fw-medium">Jelentkezés időpontja</td>
+                                                                        <td class="fw-medium">Üzenet</td>
                                                                         <td class="fw-medium">Műveletek</td>
                                                                     </tr>
                                                                 </thead>
@@ -328,6 +330,11 @@
                                                                                     </span>
                                                                                 </td>
                                                                                 <td>{{ $application->created_at->format('Y.m.d - H:i') }}</td>
+                                                                                <td>
+                                                                                    <a href="#" class="text-primary" onclick="showCoverLetter({{ json_encode($application->cover_letter) }}); return false;">
+                                                                                        <i class="bi bi-envelope"></i> Üzenet
+                                                                                    </a>
+                                                                                </td>
                                                                                 <td>
                                                                                     <div class="d-flex gap-4">
                                                                                         @if($application->status === 'pending')
@@ -359,7 +366,7 @@
                                                                                                 </form>
                                                                                             @elseif($application->job->status === 'closed')
                                                                                                 @if(Auth::user()->reviewsGiven()
-                                                                                                        ->where('job_id', $application->job->id)
+                                                                                                        ->where('job_id', $application->job->job_id)
                                                                                                         ->where('reviewee_id', $application->employee->id)
                                                                                                         ->exists())
                                                                                                     <span class="text-muted">
@@ -382,6 +389,7 @@
                                                             </table>
                                                         </div>
                                                         @else
+
                                                         <div class="alert alert-info mb-0 fw-small">
                                                             <i class="bi bi-info-circle me-2"></i>
                                                             Nincsenek jelentkezések ehhez az álláshoz.
@@ -643,4 +651,15 @@
         </div>
         <!-- END FOOTER-ALT -->
     </body>
+    <script>
+        function showCoverLetter(letter) {
+            Swal.fire({
+                title: 'Üzenet',
+                html: letter.replace(/\n/g, '<br>'),
+                icon: 'info',
+                confirmButtonText: 'Bezár',
+                confirmButtonColor: '#8a0779'
+            });
+        }
+    </script>
 </html>
