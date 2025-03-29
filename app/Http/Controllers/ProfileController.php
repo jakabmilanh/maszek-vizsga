@@ -10,17 +10,68 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Storage;
 use \App\Models\User;
+use \App\Models\Application;
+use \App\Models\Job;
+use \App\Models\Review;
 
 class ProfileController extends Controller
 {
 
-
     public function show(User $user)
     {
-        return view('profile.show', [
-            'user' => $user
-        ]);
+    $currentUser = Auth::user();
+
+    // Check for accepted applications relationship
+    $hasRelation = Application::where('status', 'accepted')
+        ->where(function($query) use ($currentUser, $user) {
+            $query->whereHas('job', function($q) use ($currentUser, $user) {
+                $q->where('employer_id', $currentUser->id)
+                  ->where('employee_id', $user->id);
+            })->orWhereHas('job', function($q) use ($currentUser, $user) {
+                $q->where('employer_id', $user->id)
+                  ->where('employee_id', $currentUser->id);
+            });
+        })->exists();
+
+    $showContactInfo = $hasRelation;
+
+    $sharedJobs = Job::whereHas('applications', function($q) use ($currentUser, $user) {
+        $q->where('status', 'accepted')
+          ->where(function($query) use ($currentUser, $user) {
+              $query->where('employee_id', $user->id)
+                    ->orWhere('employee_id', $currentUser->id);
+          });
+    })->get();
+
+    $applications = Application::with(['job.employer'])
+        ->where('employee_id', $user->id)
+        ->orderByDesc('created_at')
+        ->get();
+
+    $jobs = $user->role === 'Munkáltató'
+        ? Job::where('employer_id', $user->id)
+            ->orderByDesc('created_at')
+            ->get()
+        : collect();
+
+    $reviews = Review::with(['job', 'reviewer'])
+        ->where('reviewee_id', $user->id)
+        ->orderByDesc('created_at')
+        ->get();
+
+    $averageRating = $reviews->avg('rating') ?? 0;
+
+    return view('profile.show', [
+        'user' => $user,
+        'showContactInfo' => $showContactInfo,
+        'sharedJobs' => $sharedJobs,
+        'applications' => $applications,
+        'jobs' => $jobs,
+        'reviews' => $reviews,
+        'averageRating' => $averageRating
+    ]);
     }
+
     public function edit(Request $request): View
     {
         $user = $request->user();
