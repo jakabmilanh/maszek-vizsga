@@ -102,11 +102,9 @@
                                                     $filename = basename($document);
                                                     $displayName = \Illuminate\Support\Str::limit($filename, 20);
                                                 @endphp
-                                                <li class="mb-2">
-                                                    <a href="{{ asset('storage/profession_pictures/' . $document) }}"
-                                                       download
-                                                       class="text-decoration-none text-primary">
-                                                        <i class="bi bi-file-pdf me-2"></i>{{ $displayName }}
+                                                <li class="mb-2 ">
+                                                    <a href="{{ route('download', ['filename' => $filename]) }}" download class="text-primary">
+                                                        <i class="bi bi-file-pdf"></i>{{$displayName}}
                                                     </a>
                                                 </li>
                                             @endforeach

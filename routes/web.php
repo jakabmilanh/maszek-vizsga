@@ -6,6 +6,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\ApplicationController;
+use App\Http\Controllers\FileController;
 
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -42,6 +43,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/reviews/create/{job}/{user}', [ReviewController::class, 'create'])->name('reviews.create');
     Route::post('/jobs/{job}/reviews/{user}', [ReviewController::class, 'store'])->name('reviews.store');
+
+    Route::get('/download/{filename}', [FileController::class, 'download'])->name('download');
 
 
 
