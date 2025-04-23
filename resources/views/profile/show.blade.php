@@ -17,7 +17,7 @@
 
                     <!-- LOGO -->
                     <a class="navbar-brand text-uppercase" href={{route('home')}}>
-                        <img src="images/maszek-logo.png" alt="" height="30" >
+                        <img src="{{asset('images/maszek-logo.png')}}" alt="" height="30" >
                     </a>
 
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
@@ -52,7 +52,7 @@
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                         @csrf
                                     </form>
-                                <a href="{{ route('profile.edit') }}"><img  src="{{ auth()->user()->profile_picture ?? asset('images/profile_pictures/default.jpg') }}" class="rounded-circle border" width="40" height="40"></a>
+                                <a href="{{ route('profile.edit') }}"><img  src="{{ auth()->user()->profile_picture ? asset('storage/' . auth()->user()->profile_picture) : asset('images/profile_pictures/default.jpg') }}" class="rounded-circle border" width="40" height="40"></a>
                             </div>
                             @else
                                 <div class="me-5 flex-shrink-0 d-none d-lg-block">
@@ -74,9 +74,12 @@
                         <!-- Left Column - Profile Overview -->
                         <div class="col-lg-4 text-center">
                             <div class="mb-4">
-                                <img src="{{ $user->profile_picture ?? asset('images/profile_pictures/default.jpg') }}"
-                                    class="rounded-circle img-fluid"
-                                    style="width: 150px; height: 150px; object-fit: cover;">
+                                <img
+                                            src="{{ $user->profile_picture ? asset('storage/' . $user->profile_picture) : asset('images/profile_pictures/default.jpg') }}"
+                                            class="rounded-circle img-fluid"
+                                            style="width: 150px; height: 150px;"
+                                            alt="Profile Picture"
+                                        />
                             </div>
                             <h4>{{ $user->username }}</h4>
 
@@ -90,22 +93,36 @@
                             <!-- Documents Section -->
                             <div class="mt-4">
                                 <h5>Dokumentumok</h5>
+                                @if($showContactInfo || Auth::id() == $user->id)
                                 <ul class="list-unstyled">
                                     @if($user->profession_pictures && count(json_decode($user->profession_pictures)) > 0)
                                         @foreach(json_decode($user->profession_pictures) as $document)
+                                            @php
+                                                $filename = basename($document);
+                                                $displayName = \Illuminate\Support\Str::limit($filename, 20);
+                                            @endphp
                                             <li class="mb-2">
-                                                <a href="{{ asset('storage/profession_pictures/'.$document) }}"
-                                                   target="_blank"
-                                                   class="text-decoration-none">
-                                                    <i class="bi bi-file-pdf me-2"></i>{{ basename($document) }}
+                                                <a href="{{ asset('storage/profession_pictures/' . $document) }}"
+                                                   download
+                                                   class="text-decoration-none text-primary">
+                                                    <i class="bi bi-file-pdf me-2"></i>{{ $displayName }}
                                                 </a>
                                             </li>
                                         @endforeach
                                     @else
                                         <li class="text-muted">Nincs feltöltött dokumentum</li>
                                     @endif
+                                    @else
+                                    <div class="list-group-item text-center">
+                                        <i class="bi bi-lock fs-4 text-muted"></i>
+                                        <p class="text-muted mb-0">
+                                            A dokumentumok megtekintéséhez elfogadott munkakapcsolat szükséges a felhasználóval.
+                                        </p>
+                                    </div>
+                                    @endif
                                 </ul>
                             </div>
+
                         </div>
 
                         <!-- Right Column - Detailed Information -->
@@ -290,7 +307,7 @@
                             <div class="border-top mt-2">
                                 <div class="row job-poster-data">
                                     <div class="col-md-4 justify-content-center d-flex align-items-center border rounded">
-                                        <img src="images/facebook.webp" alt="Felhasználó Kép" height="50">
+                                        <img src="{{ $job->employer->profile_picture ? asset('storage/' . $job->employer->profile_picture) : asset('images/profile_pictures/default.jpg') }}" alt="Felhasználó Kép" height="60" style="border-radius: 50px" width="60px">
                                     </div>
                                     <div class="col-md-8 mt-1">
                                         <h5>{{ $job->employer->username }}</h5>

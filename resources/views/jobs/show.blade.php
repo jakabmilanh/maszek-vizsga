@@ -52,7 +52,7 @@
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                     @csrf
                                 </form>
-                            <a href="{{ route('profile.edit') }}"><img  src="{{ auth()->user()->profile_picture ?? asset('images/profile_pictures/default.jpg') }}" class="rounded-circle border" width="40" height="40"></a>
+                            <a href="{{ route('profile.edit') }}"><img  src="{{ auth()->user()->profile_picture ? asset('storage/' . auth()->user()->profile_picture) : asset('images/profile_pictures/default.jpg') }}" class="rounded-circle border" width="40" height="40"></a>
                         </div>
                         @else
                             <div class="me-5 flex-shrink-0 d-none d-lg-block">
@@ -250,11 +250,12 @@
                     </div>
                     <div class="card-body">
                         <div class="text-center">
-                            <img src="{{ $job->employer->profile_picture ?? asset('images/profile_pictures/default.jpg') }}"
-                                 class="rounded-circle border"
-                                 width="120"
-                                 height="120"
-                                 alt="Hirdető profilképe">
+                            <img
+                                            src="{{ $job->employer->profile_picture ? asset('storage/' . $job->employer->profile_picture) : asset('images/profile_pictures/default.jpg') }}"
+                                            class="rounded-circle img-fluid"
+                                            style="width: 150px; height: 150px;"
+                                            alt="Profile Picture"
+                                        />
                             <h4 class="mt-3">{{ $job->employer->username }}</h4>
                             @if($job->employer->bio)
                                 <p class="text-muted small">{{ $job->employer->bio }}</p>
@@ -263,53 +264,67 @@
 
                         <div class="list-group list-group-flush">
                             @auth
-                            @if(auth()->user()->applications()->where('job_id', $job->job_id)->where('status', 'accepted')->exists())
-                                {{-- Visible for users with approved application --}}
-                                <div class="list-group-item d-flex align-items-center">
-                                    <i class="bi bi-envelope me-2 text-primary"></i>
-                                    <span class="text-muted">{{ $job->employer->email }}</span>
-                                </div>
-                                <div class="list-group-item d-flex align-items-center">
-                                    <i class="bi bi-telephone me-2 text-primary"></i>
-                                    <span class="text-muted">{{ $job->employer->telephone }}</span>
-                                </div>
+                                    @if(
+                                        auth()->user()->applications()->where('job_id', $job->job_id)->where('status', 'accepted')->exists() ||
+                                        auth()->id() === $job->employer->id
+                                    )
+                                    {{-- Visible for users with approved application --}}
+                                    <div class="list-group-item d-flex align-items-center">
+                                        <i class="bi bi-envelope me-2 text-primary"></i>
+                                        <span class="text-muted">{{ $job->employer->email }}</span>
+                                    </div>
+                                    <div class="list-group-item d-flex align-items-center">
+                                        <i class="bi bi-telephone me-2 text-primary"></i>
+                                        <span class="text-muted">{{ $job->employer->telephone }}</span>
+                                    </div>
+
+                                    {{-- Visible documents for accepted users --}}
+                                    @if($job->employer->profession_pictures)
+                                        <div class="mt-4">
+                                            <h6 class="mb-2 text-primary d-flex justify-content-center">Feltöltött dokumentumok</h6>
+                                            <ul class="list-unstyled text-center">
+                                                @foreach(json_decode($job->employer->profession_pictures) as $document)
+                                                    @php
+                                                        $filename = basename($document);
+                                                        $displayName = \Illuminate\Support\Str::limit($filename, 20);
+                                                    @endphp
+                                                    <li class="mb-2">
+                                                        <a href="{{ asset('storage/profession_pictures/' . $document) }}"
+                                                           download
+                                                           class="text-decoration-none text-primary">
+                                                            <i class="bi bi-file-pdf me-2"></i>{{ $displayName }}
+                                                        </a>
+                                                    </li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                    @endif
+
+                                @else
+                                    {{-- Hidden contact and document info --}}
+                                    <div class="list-group-item text-center">
+                                        <i class="bi bi-lock fs-4 text-muted"></i>
+                                        <p class="text-muted mb-0">
+                                            A hirdető elérhetőségeit és dokumentumait csak elfogadott jelentkezés esetén tekintheted meg.
+                                        </p>
+                                    </div>
+                                @endif
                             @else
-                                {{-- Hidden contact information with warning --}}
+                                {{-- Message for logged out users --}}
                                 <div class="list-group-item text-center">
-                                    <i class="bi bi-lock fs-4 text-muted"></i>
+                                    <i class="bi bi-person-lock fs-4 text-muted"></i>
                                     <p class="text-muted mb-0">
-                                        A hirdető elérhetőségeit csak elfogadott jelentkezés esetén tekintheted meg.
+                                        Jelentkezz be az elérhetőségek és dokumentumok megtekintéséhez.
                                     </p>
                                 </div>
-                            @endif
-                        @else
-                            {{-- Message for logged out users --}}
-                            <div class="list-group-item text-center">
-                                <i class="bi bi-person-lock fs-4 text-muted"></i>
-                                <p class="text-muted mb-0">
-                                    Jelentkezz be az elérhetőségek megtekintéséhez.
-                                </p>
-                            </div>
-                        @endauth
-                            @if($job->employer->profession_pictures)
-                                <div class="list-group-item">
-                                    <h6 class="mb-2 text-primary d-flex justify-content-center">Feltöltött dokumentumok</h6>
-                                    <div class="row g-2">
-                                        @foreach(json_decode($job->employer->profession_pictures) as $image)
-                                            <div class="col-6">
-                                                <img src="{{ asset($image) }}"
-                                                     class="img-fluid rounded"
-                                                     alt="Munkaképek">
-                                            </div>
-                                        @endforeach
-                                    </div>
-                                </div>
-                            @endif
+                            @endauth
+                        </div>
+                        </div>
+                        <div class="card-footer bg-light text-center">
+                            <small class="text-muted">Regisztrálva: {{ $job->employer->created_at->diffForHumans() }}</small>
                         </div>
                     </div>
-                    <div class="card-footer bg-light text-center">
-                        <small class="text-muted">Regisztrálva: {{ $job->employer->created_at->diffForHumans() }}</small>
-                    </div>
+
                 </div>
             </div>
 

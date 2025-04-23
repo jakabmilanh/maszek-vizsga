@@ -52,7 +52,7 @@
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                     @csrf
                                 </form>
-                            <a href="{{ route('profile.edit') }}"><img  src="{{ auth()->user()->profile_picture ?? asset('images/profile_pictures/default.jpg') }}" class="rounded-circle border" width="40" height="40"></a>
+                            <a href="{{ route('profile.edit') }}"><img  src="{{ auth()->user()->profile_picture ? asset('storage/' . auth()->user()->profile_picture) : asset('images/profile_pictures/default.jpg') }}" class="rounded-circle border" width="40" height="40"></a>
                         </div>
                         @else
                             <div class="me-5 flex-shrink-0 d-none d-lg-block">
@@ -118,7 +118,7 @@
                             <i class="bi bi-search"></i> Keresés
                         </button>
                         <a href="{{ route('jobs.search') }}" class="btn btn-primary">
-                            <i class="bi bi-arrow-left"></i> Szűrő törése
+                            <i class="bi bi-arrow-left"></i> Szűrő törlése
                         </a>
                     </div>
                 </form>
@@ -176,7 +176,8 @@
                     <div class="border-top mt-2">
                         <div class="row job-poster-data">
                             <div class="col-md-4 justify-content-center d-flex align-items-center border rounded">
-                                <img src="" alt="Felhasználó Kép" height="50">
+                                <img src="{{ $job->employer->profile_picture ? asset('storage/' . $job->employer->profile_picture) : asset('images/profile_pictures/default.jpg') }}" alt="Felhasználó Kép" height="60" width="60px" style="border-radius: 100px">
+
                             </div>
                             <div class="col-md-8 mt-1">
                                 <h5>{{ $job->employer->username }}</h5>

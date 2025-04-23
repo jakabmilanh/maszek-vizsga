@@ -35,11 +35,20 @@ class ProfileController extends Controller
 
     $showContactInfo = $hasRelation;
 
-    $sharedJobs = Job::whereHas('applications', function($q) use ($currentUser, $user) {
+    $sharedJobs = Job::whereHas('applications', function ($q) use ($currentUser, $user) {
         $q->where('status', 'accepted')
-          ->where(function($query) use ($currentUser, $user) {
-              $query->where('employee_id', $user->id)
-                    ->orWhere('employee_id', $currentUser->id);
+          ->where(function ($query) use ($currentUser, $user) {
+              $query->where(function ($subQuery) use ($currentUser, $user) {
+                  $subQuery->where('employee_id', $user->id)
+                           ->whereHas('job', function ($jobQuery) use ($currentUser) {
+                               $jobQuery->where('employer_id', $currentUser->id);
+                           });
+              })->orWhere(function ($subQuery) use ($currentUser, $user) {
+                  $subQuery->where('employee_id', $currentUser->id)
+                           ->whereHas('job', function ($jobQuery) use ($user) {
+                               $jobQuery->where('employer_id', $user->id);
+                           });
+              });
           });
     })->get();
 
@@ -103,7 +112,7 @@ class ProfileController extends Controller
                 Storage::delete($user->profile_picture);
             }
 
-            $path = $request->file('profile_picture')->store('profile-pictures', 'public');
+            $path = $request->file('profile_picture')->store('profile_pictures', 'public');
             $user->profile_picture = $path;
         }
 

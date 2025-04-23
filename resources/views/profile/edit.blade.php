@@ -52,7 +52,8 @@
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                         @csrf
                                     </form>
-                                <a href="{{ route('profile.edit') }}"><img  src="{{ auth()->user()->profile_picture ?? asset('images/profile_pictures/default.jpg') }}" class="rounded-circle border" width="40" height="40"></a>
+                                <a href="{{ route('profile.edit') }}">
+                                    <img src="{{ auth()->user()->profile_picture ? asset('storage/' . auth()->user()->profile_picture) : asset('images/profile_pictures/default.jpg') }}" alt="Profile Picture" class="rounded-circle border" width="40" height="40"></a>
                             </div>
                             @else
                                 <div class="me-5 flex-shrink-0 d-none d-lg-block">
@@ -77,10 +78,11 @@
                             <div class="col-lg-4 text-center">
                                 <div class="mb-4">
                                     <img
-                                        src="{{ auth()->user()->profile_picture ?? asset('images/profile_pictures/default.jpg') }}"
-                                        class="rounded-circle img-fluid"
-                                        style="width: 150px; height: 150px;"
-                                    >
+                                            src="{{ auth()->user()->profile_picture ? asset('storage/' . auth()->user()->profile_picture) : asset('images/profile_pictures/default.jpg') }}"
+                                            class="rounded-circle img-fluid"
+                                            style="width: 150px; height: 150px;"
+                                            alt="Profile Picture"
+                                        />
                                 </div>
                                 <h4>{{ auth()->user()->username }}</h4>
 
@@ -94,12 +96,22 @@
                                 <div class="mt-4">
                                     <h5>Dokumentumok</h5>
                                     <ul class="list-unstyled">
-                                        @if(auth()->user()->profession_pictures && count(json_decode(auth()->user()->profession_pictures)) > 0)
-                                            @foreach(json_decode(auth()->user()->profession_pictures) as $profession)
-                                                <li>{{$profession}}</li>
+                                        @if($user->profession_pictures && count(json_decode($user->profession_pictures)) > 0)
+                                            @foreach(json_decode($user->profession_pictures) as $document)
+                                                @php
+                                                    $filename = basename($document);
+                                                    $displayName = \Illuminate\Support\Str::limit($filename, 20);
+                                                @endphp
+                                                <li class="mb-2">
+                                                    <a href="{{ asset('storage/profession_pictures/' . $document) }}"
+                                                       download
+                                                       class="text-decoration-none text-primary">
+                                                        <i class="bi bi-file-pdf me-2"></i>{{ $displayName }}
+                                                    </a>
+                                                </li>
                                             @endforeach
                                         @else
-                                            <li>Nincs még feltöltött dokumentum</li>
+                                            <li class="text-muted">Nincs feltöltött dokumentum</li>
                                         @endif
                                     </ul>
                                 </div>
