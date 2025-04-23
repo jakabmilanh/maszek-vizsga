@@ -19,6 +19,9 @@ class ProfileController extends Controller
 
     public function show(User $user)
     {
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
     $currentUser = Auth::user();
 
     // Check for accepted applications relationship

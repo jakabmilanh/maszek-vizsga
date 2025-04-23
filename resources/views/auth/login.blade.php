@@ -61,15 +61,7 @@
          <!-- Start Login -->
          <section id="login">
             <div class="container-lg">
-                @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
+
                 <div class="row justify-content-center">
                     <div class="col-lg-8">
                         <div class="text-center mb-5">
@@ -102,6 +94,7 @@
                                     </div>
                                 </div>
 
+
                                 <!-- Remember Me -->
                                 <div class="col-lg-12">
                                     <div class="form-check mb-3">
@@ -112,6 +105,14 @@
                                     </div>
                                 </div>
                             </div>
+                            @if ($errors->any())
+                                        <div class="alert alert-danger d-flex align-items-center" role="alert">
+                                            <i class="bi bi-bug-fill" style="margin-right: 5px"></i>
+                                            <div>
+                                                Hiba lépett fel a hitelesítés közben. Kérjük, ellenőrizze az e-mail címet vagy a jelszót.
+                                            </div>
+                                        </div>
+                                    @endif
 
                             <div class="row ">
                                 <div class="col-lg-12 d-flex justify-content-center flex-column align-items-center">
