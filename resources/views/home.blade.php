@@ -81,7 +81,7 @@
                         <div class="home-btn">
                             <a class="btn btn-outline-primary rounded-pill" href="">Tudj meg többet!
                             </a>
-                            <a class="btn btn-outline-primary rounded-pill" href="">Munkát keresek!
+                            <a class="btn btn-outline-primary rounded-pill" href="{{route('jobs.search')}}">Munkát keresek!
                             </a>
                         </div>
                     </div>
@@ -147,7 +147,7 @@
                                 </ul>
                             </div>
                             <div class="mx-auto">
-                                <a href="javascript:void(0)" class="btn btn-outline-dark"> Munkáltatóként regisztrálok!</a>
+                                <a href="{{ route('register') }}" class="btn btn-outline-dark"> Munkáltatóként regisztrálok!</a>
                               </div>
                         </div><!-- End card -->
                     </div>
@@ -194,7 +194,7 @@
                             </div>
 
                             <div class="mx-auto">
-                                <a href="javascript:void(0)" class="btn btn-outline-dark"> Munkavállalóként regisztrálok!</a>
+                                <a href="{{ route('register') }}" class="btn btn-outline-dark"> Munkavállalóként regisztrálok!</a>
                               </div>
                         </div><!-- End card -->
                     </div>

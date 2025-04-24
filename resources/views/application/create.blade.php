@@ -17,7 +17,7 @@
 
                 <!-- LOGO -->
                 <a class="navbar-brand text-uppercase" href={{route('home')}}>
-                    <img src="../images/maszek-logo.png" alt="" height="30" >
+                    <img src="{{asset('images/maszek-logo.png')}}" alt="" height="30" >
                 </a>
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"

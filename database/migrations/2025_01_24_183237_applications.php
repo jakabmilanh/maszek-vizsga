@@ -17,7 +17,7 @@ class Applications extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            $table->foreign('job_id')->references('job_id')->on('jobs')->onDelete('cascade');
+            $table->foreignId('job_id')->constrained('jobs', 'job_id')->cascadeOnDelete();
             $table->foreign('employee_id')->references('id')->on('users')->onDelete('cascade');
         });
     }

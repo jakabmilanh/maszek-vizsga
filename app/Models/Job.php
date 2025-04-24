@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-
 class Job extends Model
 {
     use HasFactory, SoftDeletes;
@@ -24,5 +23,13 @@ class Job extends Model
     public function reviews()
     {
         return $this->hasMany(Review::class);
+    }
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($job) {
+            $job->applications()->delete();
+        });
     }
 }

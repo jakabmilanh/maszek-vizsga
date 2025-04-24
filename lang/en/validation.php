@@ -31,6 +31,7 @@ return [
         'numeric' => 'A(z) :attribute mezőnek :min és :max között kell lennie.',
         'string' => 'A(z) :attribute mezőnek :min és :max karakter között kell lennie.',
     ],
+
     'boolean' => 'A(z) :attribute mezőnek igaznak vagy hamisnak kell lennie.',
     'can' => 'A(z) :attribute mező egy nem engedélyezett értéket tartalmaz.',
     'confirmed' => 'A(z) :attribute mező megerősítése nem egyezik.',
@@ -109,6 +110,7 @@ return [
     ],
     'min_digits' => 'A(z) :attribute mezőnek legalább :min számjegyet kell tartalmaznia.',
     'missing' => 'A(z) :attribute mezőnek hiányoznia kell.',
+
     'missing_if' => 'A(z) :attribute mezőnek hiányoznia kell, amikor a(z) :other értéke :value.',
     'missing_unless' => 'A(z) :attribute mezőnek hiányoznia kell, kivéve, ha a(z) :other értéke :value.',
     'missing_with' => 'A(z) :attribute mezőnek hiányoznia kell, amikor a(z) :values jelen van.',
@@ -161,6 +163,9 @@ return [
     'ulid' => 'A(z) :attribute mezőnek érvényes ULID-nek kell lennie.',
     'uuid' => 'A(z) :attribute mezőnek érvényes UUID-nek kell lennie.',
 
+    'profession_pictures.required' => 'A foglalkozáshoz szükséges képek megadása kötelező.',
+    'profession_pictures.image'    => 'A feltöltött fájlnak képnek kell lennie.',
+
     /*
     |--------------------------------------------------------------------------
     | Custom Validation Language Lines
@@ -177,6 +182,7 @@ return [
             'rule-name' => 'custom-message',
         ],
     ],
+
 
     /*
     |--------------------------------------------------------------------------
