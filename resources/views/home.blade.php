@@ -54,7 +54,7 @@
                             <a href="{{ route('profile.edit') }}"><img  src="{{ auth()->user()->profile_picture ? asset('storage/' . auth()->user()->profile_picture) : asset('images/profile_pictures/default.jpg') }}" class="rounded-circle border" width="40" height="40"></a>
                         </div>
                         @else
-                            <div class="me-5 flex-shrink-0 d-none d-lg-block">
+                            <div class="me-5 d-flex align-items-center">
                                 <a class="btn btn-primary nav-btn" href="{{ route('login') }}">
                                     Bejelentkezés
                                 </a>
@@ -224,6 +224,9 @@
                 <!--end row-->
                 <div class="row justify-content-center py-5 gy-5 mx-1">
                     @foreach($jobs as $job)
+                    @if($loop->iteration > 6)
+                    @break                          <!-- stop at 6 iterations :contentReference[oaicite:2]{index=2} -->
+                    @endif
                     <!-- Column wrapper to enforce 4/12 width -->
                     <div class="col-md-4 col-lg-4">
                       <div

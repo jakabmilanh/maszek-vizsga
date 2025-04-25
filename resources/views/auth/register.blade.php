@@ -63,15 +63,7 @@
 
          <section id="registration">
             <div class="container-lg">
-                @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
+
                 <div class="row justify-content-center">
                     <div class="col-lg-8">
                         <div class="text-center mb-5">
@@ -160,14 +152,13 @@
                                 </div>
                             </div>
                             @if ($errors->any())
-                                    <div class="alert alert-danger">
-                                        <ul>
-                                            @foreach ($errors->all() as $error)
-                                                <li>{{ $error }}</li>
-                                            @endforeach
-                                        </ul>
-                                    </div>
-                                @endif
+                                        <div class="alert alert-danger d-flex align-items-center" role="alert">
+                                            <i class="bi bi-bug-fill" style="margin-right: 5px"></i>
+                                            <div>
+                                                Hiba lépett fel a regisztráció közben. Kérjük, ellenőrizze az adatokat.
+                                            </div>
+                                        </div>
+                                    @endif
                             <div class="row justify-content-center">
                                 <div class="col-lg-12 text-center">
                                     <button type="submit" class="btn btn-primary">Regisztrálás</button>

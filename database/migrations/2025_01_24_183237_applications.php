@@ -10,14 +10,14 @@ class Applications extends Migration
     {
         Schema::create('applications', function (Blueprint $table) {
             $table->id('application_id');
-            $table->unsignedBigInteger('job_id');
+            $table->foreignId('job_id')->constrained('jobs', 'job_id')->cascadeOnDelete();
             $table->unsignedBigInteger('employee_id');
             $table->enum('status', ['pending', 'accepted', 'rejected'])->default('pending');
             $table->text('cover_letter')->nullable();
             $table->timestamps();
             $table->softDeletes();
 
-            $table->foreignId('job_id')->constrained('jobs', 'job_id')->cascadeOnDelete();
+
             $table->foreign('employee_id')->references('id')->on('users')->onDelete('cascade');
         });
     }

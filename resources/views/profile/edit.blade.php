@@ -56,11 +56,11 @@
                                     <img src="{{ auth()->user()->profile_picture ? asset('storage/' . auth()->user()->profile_picture) : asset('images/profile_pictures/default.jpg') }}" alt="Profile Picture" class="rounded-circle border" width="40" height="40"></a>
                             </div>
                             @else
-                                <div class="me-5 flex-shrink-0 d-none d-lg-block">
-                                    <a class="btn btn-primary nav-btn" href="{{ route('login') }}">
-                                        Bejelentkezés
-                                    </a>
-                                </div>
+                            <div class="me-5 d-flex align-items-center">
+                                <a class="btn btn-primary nav-btn" href="{{ route('login') }}">
+                                    Bejelentkezés
+                                </a>
+                            </div>
                             @endif
                         </div>
                     </div>
@@ -137,9 +137,7 @@
                                                 <div class="position-relative mb-3">
                                                     <span class="input-group-text"><i class="bi bi-person"></i></span>
                                                     <input name="username" id="username" type="text" class="form-control" placeholder="Felhasználónév" value="{{ old('username', Auth::user()->username) }}" required>
-                                                    @error('username')
-                                                        <div class="text-danger">{{ $message }}</div>
-                                                    @enderror
+
                                                 </div>
                                             </div>
 
@@ -148,9 +146,7 @@
                                                 <div class="position-relative mb-3">
                                                     <span class="input-group-text"><i class="bi bi-envelope"></i></span>
                                                     <input name="email" id="email" type="email" class="form-control" placeholder="Email cím" value="{{ old('email', Auth::user()->email) }}" required readonly>
-                                                    @error('email')
-                                                        <div class="text-danger">{{ $message }}</div>
-                                                    @enderror
+
                                                 </div>
                                             </div>
 
@@ -159,9 +155,7 @@
                                                 <div class="position-relative mb-3">
                                                     <span class="input-group-text"><i class="bi bi-telephone"></i></span>
                                                     <input name="telephone" id="telephone" type="text" class="form-control" placeholder="Telefonszám" value="{{ old('telephone', Auth::user()->telephone) }}" required readonly>
-                                                    @error('telephone')
-                                                        <div class="text-danger">{{ $message }}</div>
-                                                    @enderror
+
                                                 </div>
                                             </div>
 
@@ -170,9 +164,7 @@
                                                 <div class="position-relative mb-3">
                                                     <span class="input-group-text d-flex align-items-start"><i class="bi bi-file-earmark-person"></i></span>
                                                     <textarea name="bio" id="bio" class="form-control" placeholder="Bio" rows="4">{{ old('bio', Auth::user()->bio) }}</textarea>
-                                                    @error('bio')
-                                                        <div class="text-danger">{{ $message }}</div>
-                                                    @enderror
+
                                                 </div>
                                             </div>
 
@@ -181,10 +173,9 @@
                                                 <div class="position-relative mb-3">
                                                     <span class="input-group-text"><i class="bi bi-camera"></i></span>
                                                     <input name="profile_picture" id="profile_picture" type="file" class="form-control" accept="image/*">
-                                                    @error('profile_picture')
-                                                        <div class="text-danger">{{ $message }}</div>
-                                                    @enderror
+
                                                 </div>
+
                                             </div>
 
                                             <!-- Profession Documents -->
@@ -192,9 +183,7 @@
                                                 <div class="position-relative mb-3">
                                                     <span class="input-group-text"><i class="bi bi-file-earmark-text"></i></span>
                                                     <input name="profession_pictures[]" id="profession_pictures" type="file" class="form-control" multiple>
-                                                    @error('profession_pictures')
-                                                        <div class="text-danger">{{ $message }}</div>
-                                                    @enderror
+
                                                 </div>
                                             </div>
 

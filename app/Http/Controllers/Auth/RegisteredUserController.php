@@ -38,7 +38,6 @@ class RegisteredUserController extends Controller
         'role' => ['required', 'in:Munkáltató,Munkavállaló'],
         'profile_picture' => ['nullable', 'image', 'max:2048'],
         'profession_pictures' => ['nullable', 'array'],
-        'profession_pictures.*' => ['image', 'max:2048'],
         'bio' => ['nullable', 'string'],
     ]);
 

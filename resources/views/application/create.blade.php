@@ -55,7 +55,7 @@
                             <a href="{{ route('profile.edit') }}"><img  src="{{ auth()->user()->profile_picture ?? asset('images/profile_pictures/default.jpg') }}" class="rounded-circle border" width="40" height="40"></a>
                         </div>
                         @else
-                            <div class="me-5 flex-shrink-0 d-none d-lg-block">
+                            <div class="me-5 d-flex align-items-center">
                                 <a class="btn btn-primary nav-btn" href="{{ route('login') }}">
                                     Bejelentkezés
                                 </a>
