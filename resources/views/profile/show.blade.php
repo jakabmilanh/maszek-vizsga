@@ -72,7 +72,7 @@
                 <div class="card-body">
                     <div class="row">
                         <!-- Left Column - Profile Overview -->
-                        <div class="col-lg-4 text-center">
+                        <div class="col-lg-4 text-center ">
                             <div class="mb-4">
                                 <img
                                             src="{{ $user->profile_picture ? asset('storage/' . $user->profile_picture) : asset('images/profile_pictures/default.jpg') }}"
@@ -263,72 +263,80 @@
                                     Jelenleg nincsenek jelentkezések.
                                 </div>
                             @endif
+                                        <!-- Job Listings (for employers) -->
+                                <h4 class="border-bottom pb-2">Hirdetések</h4>
 
-
-
-                        <!-- Job Listings (for employers) -->
-                        <h4 class="border-bottom pb-2">Hirdetések</h4>
-                        @if($user->role === 'Munkáltató' && $jobs->isNotEmpty())
-                        <div class="row mb-5">
-                                <div class="col-12">
-
-                                    <div class="row p-3">
-                                                @foreach($jobs as $job)
-                                                <div class="card job-box col-lg-4 col-md-4 p-3"
-                                onclick="window.location.href='{{ route('jobs.show', ['id' => $job->job_id]) }}'"
-                                style="cursor: pointer; transition: all 0.3s ease;"
-                                onmouseover="this.style.transform='translateY(-5px)'"
-                                onmouseout="this.style.transform='none'">
-
-                            <h5>{{ $job->title }}</h5>
-                            <p class="job-posted-time">
-                                <i class="bi bi-clock icon-color-primary"></i>
-                                <a class="text-muted job-date">
-                                    Meghírdetve {{ \Carbon\Carbon::parse($job->created_at)->diffForHumans() }}
-                                </a>
-                            </p>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <h6 class="job-schedule-full">{{ $job->category }}</h6>
-                                </div>
-                                <div class="col-md-6 d-flex align-items-start mt-1">
-                                    <h6 class="mb-0 d-flex align-items-center flex-grow-1">
-                                        <div>
-                                            <i class="bi bi-cash icon-color-primary"></i> {{ number_format($job->salary, 0) }}
+                                @if($user->role === 'Munkáltató' && $jobs->isNotEmpty())
+                                <div class="row g-3 mb-5"><!-- Added gutters with .g-3 -->
+                                    @foreach($jobs as $job)
+                                    <!-- Column wrapper to enforce 4/12 width -->
+                                    <div class="col-md-4 col-lg-4"><!-- 3 cards per row on md+ screens :contentReference[oaicite:0]{index=0} -->
+                                        <div
+                                        class="card job-box p-3 mt-2"
+                                        onclick="window.location.href='{{ route('jobs.show', ['id' => $job->job_id]) }}'"
+                                        style="cursor: pointer; transition: all 0.3s ease;"
+                                        onmouseover="this.style.transform='translateY(-5px)'"
+                                        onmouseout="this.style.transform='none'"
+                                        >
+                                        <h5>{{ $job->title }}</h5>
+                                        <p class="job-posted-time">
+                                            <i class="bi bi-clock icon-color-primary"></i>
+                                            <a class="text-muted job-date">
+                                            Meghírdetve {{ \Carbon\Carbon::parse($job->created_at)->diffForHumans() }}
+                                            </a>
+                                        </p>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                            <h6 class="job-schedule-full">{{ $job->category }}</h6>
+                                            </div>
+                                            <div class="col-md-6 d-flex align-items-start mt-1">
+                                            <h6 class="mb-0 d-flex align-items-center flex-grow-1">
+                                                <div>
+                                                <i class="bi bi-cash icon-color-primary"></i>
+                                                {{ number_format($job->salary, 0) }}
+                                                </div>
+                                                @if(in_array($job->category, ['Teljes munkaidős', 'Részmunkaidős', 'Több alkalom']))
+                                                <span class="ms-1">Ft/óra</span>
+                                                @else
+                                                <span class="ms-1">Ft</span>
+                                                @endif
+                                            </h6>
+                                            </div>
                                         </div>
-                                        @if(in_array($job->category, ['Teljes munkaidős', 'Részmunkaidős', 'Több alkalom']))
-                                            <span class="ms-1"> Ft/óra</span>
-                                        @else
-                                        <span class="ms-1"> Ft</span>
-                                        @endif
-                                    </h6>
-                                </div>
-                            </div>
-                            <div class="border-top mt-2">
-                                <div class="row job-poster-data">
-                                    <div class="col-md-4 justify-content-center d-flex align-items-center border rounded">
-                                        <img src="{{ $job->employer->profile_picture ? asset('storage/' . $job->employer->profile_picture) : asset('images/profile_pictures/default.jpg') }}" alt="Felhasználó Kép" height="60" style="border-radius: 50px" width="60px">
+                                        <div class="border-top mt-2">
+                                            <div class="row job-poster-data">
+                                            <div class="col-md-4 justify-content-center d-flex align-items-center border rounded">
+                                                <img
+                                                src="{{ $job->employer->profile_picture
+                                                        ? asset('storage/' . $job->employer->profile_picture)
+                                                        : asset('images/profile_pictures/default.jpg') }}"
+                                                alt="Felhasználó Kép"
+                                                height="60"
+                                                width="60"
+                                                style="border-radius: 50px"
+                                                >
+                                            </div>
+                                            <div class="col-md-8 mt-1">
+                                                <h5>{{ $job->employer->username }}</h5>
+                                                <h6 class="justify-content-start">
+                                                <i class="bi bi-geo-alt-fill icon-color-primary"></i>
+                                                <a class="text-muted">{{ $job->location }}</a>
+                                                </h6>
+                                            </div>
+                                            </div>
+                                        </div>
+                                        </div>
                                     </div>
-                                    <div class="col-md-8 mt-1">
-                                        <h5>{{ $job->employer->username }}</h5>
-                                        <h6 class="justify-content-start">
-                                            <i class="bi bi-geo-alt-fill icon-color-primary"></i>
-                                            <a class="text-muted">{{ $job->location }}</a>
-                                        </h6>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                                     @endforeach
                                 </div>
-                            </div>
-                        </div>
-                        @else
+                                @else
                                 <div class="alert alert-info mb-5">
                                     <i class="bi bi-info-circle me-2"></i>
                                     Jelenleg nincsenek hírdetések.
                                 </div>
-                            @endif
+                                @endif
+
+
 
                         <!-- Reviews -->
                         <h4 class="border-bottom pb-2">Értékelések</h4>
@@ -381,7 +389,7 @@
                 <div class="row g-sm-4">
                     <div class="col-lg-12">
                         <div class="mb-3 mb-sm-0">
-                            <img src="images/maszek-logo.png" class="logo-dark" alt="" height="22">
+                            <img src="i{{asset('images/maszek-logo.png')}}" class="logo-dark" alt="" height="22">
                         </div>
                     </div>
 

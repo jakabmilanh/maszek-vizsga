@@ -17,7 +17,7 @@
 
                     <!-- LOGO -->
                     <a class="navbar-brand text-uppercase" href={{route('home')}}>
-                        <img src="images/maszek-logo.png" alt="" height="30" >
+                        <img src="{{asset('images/maszek-logo.png')}}" alt="" height="30" >
                     </a>
 
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
@@ -117,13 +117,12 @@
 
 
                             <div class="col-lg-8">
-                                    @if ($errors->any())
-                                        <div class="alert alert-danger">
-                                            <ul>
-                                                @foreach ($errors->all() as $error)
-                                                    <li>{{ $error}}</li>
-                                                @endforeach
-                                            </ul>
+                                        @if ($errors->any())
+                                        <div class="alert alert-danger d-flex align-items-center" role="alert">
+                                            <i class="bi bi-bug-fill" style="margin-right: 5px"></i>
+                                            <div>
+                                                Hiba lépett fel. Kérjük, ellenőrizze, hogy az adatok amiket megadott valósak.
+                                            </div>
                                         </div>
                                     @endif
                                     <form method="POST" action="{{ route('profile.update', ['user' => Auth::id()]) }}" enctype="multipart/form-data" class="contact-form">
@@ -569,7 +568,7 @@
                 <div class="row g-sm-4">
                     <div class="col-lg-12">
                         <div class="mb-3 mb-sm-0">
-                            <img src="images/maszek-logo.png" class="logo-dark" alt="" height="22">
+                            <img src="{{asset('images/maszek-logo.png')}}" class="logo-dark" alt="" height="22">
                         </div>
                     </div>
 

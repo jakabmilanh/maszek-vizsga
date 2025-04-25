@@ -16,7 +16,7 @@
 
                 <!-- LOGO -->
                 <a class="navbar-brand text-uppercase" href={{route('home')}}>
-                    <img src="images/maszek-logo.png" alt="" height="30" >
+                    <img src="{{asset('images/maszek-logo.png')}}" alt="" height="30" >
                 </a>
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
@@ -224,59 +224,70 @@
                 <!--end row-->
                 <div class="row justify-content-center py-5 gy-5 mx-1">
                     @foreach($jobs as $job)
-                    <div class="card job-box col-lg-4 col-md-5 p-3"
-                    onclick="window.location.href='{{ route('jobs.show', ['id' => $job->job_id]) }}'"
-                    style="cursor: pointer; transition: all 0.3s ease;"
-                    onmouseover="this.style.transform='translateY(-5px)'"
-                    onmouseout="this.style.transform='none'">
-
-                   <!-- Card content remains the same -->
-                   <h5>{{ $job->title }}</h5>
-                   <p class="job-posted-time">
-                       <i class="bi bi-clock icon-color-primary"></i>
-                       <a class="text-muted job-date">
-                           Meghírdetve {{ \Carbon\Carbon::parse($job->created_at)->diffForHumans() }}
-                       </a>
-                   </p>
-                   <div class="row">
-                    <div class="col-md-6">
-                        <h6 class="job-schedule-full">{{ $job->category }}</h6>
-                    </div>
-                    <div class="col-md-6 d-flex align-items-start mt-1">
-                        <h6 class="mb-0 d-flex align-items-center flex-grow-1">
-                            <div>
-                                <i class="bi bi-cash icon-color-primary"></i> {{ number_format($job->salary, 0) }}
+                    <!-- Column wrapper to enforce 4/12 width -->
+                    <div class="col-md-4 col-lg-4">
+                      <div
+                        class="card job-box p-3 mt-2"
+                        onclick="window.location.href='{{ route('jobs.show', ['id' => $job->job_id]) }}'"
+                        style="cursor: pointer; transition: all 0.3s ease;"
+                        onmouseover="this.style.transform='translateY(-5px)'"
+                        onmouseout="this.style.transform='none'"
+                      >
+                        <h5>{{ $job->title }}</h5>
+                        <p class="job-posted-time">
+                          <i class="bi bi-clock icon-color-primary"></i>
+                          <a class="text-muted job-date">
+                            Meghírdetve {{ \Carbon\Carbon::parse($job->created_at)->diffForHumans() }}
+                          </a>
+                        </p>
+                        <div class="row">
+                          <div class="col-md-6">
+                            <h6 class="job-schedule-full">{{ $job->category }}</h6>
+                          </div>
+                          <div class="col-md-6 d-flex align-items-start mt-1">
+                            <h6 class="mb-0 d-flex align-items-center flex-grow-1">
+                              <div>
+                                <i class="bi bi-cash icon-color-primary"></i>
+                                {{ number_format($job->salary, 0) }}
+                              </div>
+                              @if(in_array($job->category, ['Teljes munkaidős', 'Részmunkaidős', 'Több alkalom']))
+                                <span class="ms-1">Ft/óra</span>
+                              @else
+                                <span class="ms-1">Ft</span>
+                              @endif
+                            </h6>
+                          </div>
+                        </div>
+                        <div class="border-top mt-2">
+                          <div class="row job-poster-data">
+                            <div class="col-md-4 justify-content-center d-flex align-items-center border rounded">
+                              <img
+                                src="{{ $job->employer->profile_picture
+                                        ? asset('storage/' . $job->employer->profile_picture)
+                                        : asset('images/profile_pictures/default.jpg') }}"
+                                alt="Felhasználó Kép"
+                                height="60"
+                                width="60"
+                                style="border-radius: 50px"
+                              >
                             </div>
-                            @if(in_array($job->category, ['Teljes munkaidős', 'Részmunkaidős', 'Több alkalom']))
-                                 <span class="ms-1"> Ft/óra</span>
-                            @else
-                            <span class="ms-1"> Ft</span>
-                            @endif
-                        </h6>
+                            <div class="col-md-8 mt-1">
+                              <h5>{{ $job->employer->username }}</h5>
+                              <h6 class="justify-content-start">
+                                <i class="bi bi-geo-alt-fill icon-color-primary"></i>
+                                <a class="text-muted">{{ $job->location }}</a>
+                              </h6>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                   </div>
-                   <div class="border-top mt-2">
-                       <div class="row job-poster-data">
-                           <div class="col-md-4 justify-content-center d-flex align-items-center border rounded">
-                            <img src="{{ $job->employer->profile_picture ? asset('storage/' . $job->employer->profile_picture) : asset('images/profile_pictures/default.jpg') }}" alt="Felhasználó Kép" height="60" width="60px" style="border-radius: 100px">
-
-                           </div>
-                           <div class="col-md-8 mt-1">
-                               <h5>{{ $job->employer->username }}</h5>
-                               <h6 class="justify-content-start">
-                                   <i class="bi bi-geo-alt-fill icon-color-primary"></i>
-                                   <a class="text-muted">{{ $job->location }}</a>
-                               </h6>
-                           </div>
-                       </div>
-                   </div>
-               </div>
-                    @endforeach
+                  @endforeach
                 </div>
 
                 <div class="row">
                     <div class=" d-flex justify-content-center">
-                        <a href="javascript:void(0)" class="btn btn-outline-dark">Mutass többet!</a>
+                        <a href="{{route('jobs.search')}}" class="btn btn-outline-dark">Mutass többet!</a>
                     </div>
             </div>
         </div><!--end container-->
@@ -298,7 +309,7 @@
                 </div>
                 <div class="row justify-content-around">
                     <div class="col-lg-8">
-                        <form method="post" onsubmit="return validateForm()" class="contact-form" name="myForm" id="myForm">
+                        <form method="" class="contact-form" name="myForm" id="myForm">
                             <span id="error-msg"></span>
                             <div class="row">
                                 <div class="col-lg-6">
@@ -347,7 +358,7 @@
                 <div class="row g-sm-4">
                     <div class="col-lg-12">
                         <div class="mb-3 mb-sm-0">
-                            <img src="images/maszek-logo.png" class="logo-dark" alt="" height="22">
+                            <img src="{{asset('images/maszek-logo.png')}}" class="logo-dark" alt="" height="22">
                         </div>
                     </div>
 

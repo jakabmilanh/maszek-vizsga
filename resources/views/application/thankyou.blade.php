@@ -17,7 +17,7 @@
 
                 <!-- LOGO -->
                 <a class="navbar-brand text-uppercase" href={{route('home')}}>
-                    <img src="../images/maszek-logo.png" alt="" height="30" >
+                    <img src="{{asset('images/maszek-logo.png')}}" alt="" height="30" >
                 </a>
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
@@ -97,7 +97,7 @@
                 <div class="row g-sm-4">
                     <div class="col-lg-12">
                         <div class="mb-3 mb-sm-0">
-                            <img src="images/maszek-logo.png" class="logo-dark" alt="" height="22">
+                            <img src="{{asset('images/maszek-logo.png')}}" class="logo-dark" alt="" height="22">
                         </div>
                     </div>
 

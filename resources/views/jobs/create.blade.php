@@ -17,7 +17,7 @@
 
                 <!-- LOGO -->
                 <a class="navbar-brand text-uppercase" href={{route('home')}}>
-                    <img src="../images/maszek-logo.png" alt="" height="30" >
+                    <img src="{{asset('images/maszek-logo.png')}}" alt="" height="30" >
                 </a>
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
@@ -82,7 +82,12 @@
                                         <input type="text" class="form-control" id="title" name="title" placeholder="Költöztetés" value="{{ old('title') }}" required>
                                     </div>
                                     @error('title')
-                                        <div class="text-danger">{{ $message }}</div>
+                                        <div class="alert alert-danger d-flex align-items-center" role="alert">
+                                            <i class="bi bi-bug-fill" style="margin-right: 5px"></i>
+                                            <div>
+                                                Hiba lépett fel a hirdetés neve megadása során.
+                                            </div>
+                                        </div>
                                     @enderror
                                 </div>
 
@@ -102,7 +107,12 @@
                                         </select>
                                     </div>
                                     @error('category')
-                                        <div class="text-danger">{{ $message }}</div>
+                                    <div class="alert alert-danger d-flex align-items-center" role="alert">
+                                        <i class="bi bi-bug-fill" style="margin-right: 5px"></i>
+                                        <div>
+                                            Hiba lépett fel a hirdetés kategória megadása során.
+                                        </div>
+                                    </div>
                                     @enderror
                                 </div>
 
@@ -114,7 +124,12 @@
                                         <input type="text" class="form-control" id="location" name="location" placeholder="Pécs" value="{{ old('location') }}" required>
                                     </div>
                                     @error('location')
-                                        <div class="text-danger">{{ $message }}</div>
+                                    <div class="alert alert-danger d-flex align-items-center" role="alert">
+                                        <i class="bi bi-bug-fill" style="margin-right: 5px"></i>
+                                        <div>
+                                            Hiba lépett fel a hirdetés helyszíne megadása során.
+                                        </div>
+                                    </div>
                                     @enderror
                                 </div>
 
@@ -126,7 +141,12 @@
                                         <input type="number" class="form-control" id="salary" name="salary" placeholder="2500" value="{{ old('salary') }}" required>
                                     </div>
                                     @error('salary')
-                                        <div class="text-danger">{{ $message }}</div>
+                                    <div class="alert alert-danger d-flex align-items-center" role="alert">
+                                        <i class="bi bi-bug-fill" style="margin-right: 5px"></i>
+                                        <div>
+                                            Hiba lépett fel a hirdetés fizetése megadása során.
+                                        </div>
+                                    </div>
                                     @enderror
                                 </div>
 
@@ -136,10 +156,15 @@
                                     <label for="description" class="form-label ">Munkaleíás:</label>
                                     <div class="input-group">
                                         <span class="input-group-text d-flex align-items-start"><i class="bi bi-file-text"></i></span>
-                                        <textarea class="form-control" id="description" name="description" rows="8" placeholder="Pár mondatban jellemezd, hogy a munkavállalónak milyen kirtériumnak kell megfelelnie, milyen feladatokat kell elvégeznie, milyen környezetben, stb.." required>{{ old('description') }}</textarea>
+                                        <textarea class="form-control" id="description" name="description" rows="8" placeholder="Pár mondatban jellemezd, hogy a munkavállalónak milyen kirtériumnak kell megfelelnie, milyen feladatokat kell elvégeznie, milyen környezetben, pontosan mikor, stb.." required>{{ old('description') }}</textarea>
                                     </div>
                                     @error('description')
-                                        <div class="text-danger">{{ $message }}</div>
+                                    <div class="alert alert-danger d-flex align-items-center" role="alert">
+                                        <i class="bi bi-bug-fill" style="margin-right: 5px"></i>
+                                        <div>
+                                            Hiba lépett fel a hirdetés leírása során.
+                                        </div>
+                                    </div>
                                     @enderror
                                 </div>
 
@@ -160,7 +185,7 @@
                                 <div class="row g-sm-4">
                                     <div class="col-lg-12">
                                         <div class="mb-3 mb-sm-0">
-                                            <img src="images/maszek-logo.png" class="logo-dark" alt="" height="22">
+                                            <img src="{{asset('images/maszek-logo.png')}}" class="logo-dark" alt="" height="22">
                                         </div>
                                     </div>
 

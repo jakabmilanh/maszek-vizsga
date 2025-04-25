@@ -335,7 +335,7 @@
             <div class="row g-sm-4">
                 <div class="col-lg-12">
                     <div class="mb-3 mb-sm-0">
-                        <img src="images/maszek-logo.png" class="logo-dark" alt="" height="22">
+                        <img src="{{asset('images/maszek-logo.png')}}" class="logo-dark" alt="" height="22">
                     </div>
                 </div>
 
