@@ -64,6 +64,14 @@
                                 <div class="mb-3 position-relative">
                                     <label for="title" class="form-label">Hirdetés címe:</label>
                                     <input type="text" class="form-control" id="title" name="title" value="{{ old('title', $job->title) }}" required>
+                                    @error('title')
+                                        <div class="alert alert-danger d-flex align-items-center mt-3" role="alert">
+                                            <i class="bi bi-bug-fill" style="margin-right: 5px"></i>
+                                            <div>
+                                                Hiba lépett fel a hirdetés neve megadása során.
+                                            </div>
+                                        </div>
+                                    @enderror
                                 </div>
 
                                 <div class="mb-3 position-relative">
@@ -77,22 +85,54 @@
                                         <option value="Otthon végezhető" {{ $job->category == 'Otthon végezhető' ? 'selected' : '' }}>Otthon végezhető</option>
                                         <option value="Online végezhető" {{ $job->category == 'Online végezhető' ? 'selected' : '' }}>Online végezhető</option>
                                     </select>
+                                    @error('category')
+                                    <div class="alert alert-danger d-flex align-items-center mt-3" role="alert">
+                                        <i class="bi bi-bug-fill" style="margin-right: 5px"></i>
+                                        <div>
+                                            Hiba lépett fel a hirdetés kategória megadása során.
+                                        </div>
+                                    </div>
+                                    @enderror
                                 </div>
 
                                 <div class="mb-3 position-relative">
                                     <label for="location" class="form-label">Helyszín:</label>
                                     <input type="text" class="form-control" id="location" name="location" value="{{ old('location', $job->location) }}" required>
+                                    @error('location')
+                                    <div class="alert alert-danger d-flex align-items-center mt-3" role="alert">
+                                        <i class="bi bi-bug-fill" style="margin-right: 5px"></i>
+                                        <div>
+                                            Hiba lépett fel a hirdetés helyszíne megadása során.
+                                        </div>
+                                    </div>
+                                    @enderror
                                 </div>
 
                                 <div class="mb-3 position-relative">
                                     <label for="salary" class="form-label">Fizetés (Forintban értetendő):</label>
                                     <input type="number" class="form-control" id="salary" name="salary" value="{{ old('salary', $job->salary) }}" required>
+                                    @error('salary')
+                                    <div class="alert alert-danger d-flex align-items-center mt-3" role="alert">
+                                        <i class="bi bi-bug-fill" style="margin-right: 5px"></i>
+                                        <div>
+                                            Hiba lépett fel a hirdetés fizetése megadása során.
+                                        </div>
+                                    </div>
+                                    @enderror
                                 </div>
 
                                 <div class="mb-3 position-relative">
                                     <label for="description" class="form-label">Munkaleírás:</label>
-                                    <textarea class="form-control" id="description" name="description" rows="8" required>{{ old('description', $job->description) }}</textarea>
-                                </div>
+                                <textarea class="form-control" id="description" name="description" rows="8" required>{{ old('description', $job->description) }}</textarea>
+                                @error('description')
+                                    <div class="alert alert-danger d-flex align-items-center mt-3" role="alert">
+                                        <i class="bi bi-bug-fill" style="margin-right: 5px"></i>
+                                        <div>
+                                            Hiba lépett fel a hirdetés leírása során.
+                                        </div>
+                                    </div>
+                                    @enderror
+                            </div>
 
                                 <button type="submit" class="btn btn-success">
                                     <i class="bi bi-check-lg"></i> Hirdetés frissítése
