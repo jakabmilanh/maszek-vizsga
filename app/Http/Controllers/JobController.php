@@ -85,7 +85,7 @@ class JobController extends Controller
             'description' => 'required|string',
             'location' => 'required|string|max:255',
             'category' => 'required|string',
-            'salary' => 'required|numeric',
+            'salary' => 'required|numeric|min:0',
 
         ]);
 

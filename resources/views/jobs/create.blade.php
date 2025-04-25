@@ -82,7 +82,7 @@
                                         <input type="text" class="form-control" id="title" name="title" placeholder="Költöztetés" value="{{ old('title') }}" required>
                                     </div>
                                     @error('title')
-                                        <div class="alert alert-danger d-flex align-items-center" role="alert">
+                                        <div class="alert alert-danger d-flex align-items-center mt-3" role="alert">
                                             <i class="bi bi-bug-fill" style="margin-right: 5px"></i>
                                             <div>
                                                 Hiba lépett fel a hirdetés neve megadása során.
@@ -107,7 +107,7 @@
                                         </select>
                                     </div>
                                     @error('category')
-                                    <div class="alert alert-danger d-flex align-items-center" role="alert">
+                                    <div class="alert alert-danger d-flex align-items-center mt-3" role="alert">
                                         <i class="bi bi-bug-fill" style="margin-right: 5px"></i>
                                         <div>
                                             Hiba lépett fel a hirdetés kategória megadása során.
@@ -124,7 +124,7 @@
                                         <input type="text" class="form-control" id="location" name="location" placeholder="Pécs" value="{{ old('location') }}" required>
                                     </div>
                                     @error('location')
-                                    <div class="alert alert-danger d-flex align-items-center" role="alert">
+                                    <div class="alert alert-danger d-flex align-items-center mt-3" role="alert">
                                         <i class="bi bi-bug-fill" style="margin-right: 5px"></i>
                                         <div>
                                             Hiba lépett fel a hirdetés helyszíne megadása során.
@@ -141,7 +141,7 @@
                                         <input type="number" class="form-control" id="salary" name="salary" placeholder="2500" value="{{ old('salary') }}" required>
                                     </div>
                                     @error('salary')
-                                    <div class="alert alert-danger d-flex align-items-center" role="alert">
+                                    <div class="alert alert-danger d-flex align-items-center mt-3" role="alert">
                                         <i class="bi bi-bug-fill" style="margin-right: 5px"></i>
                                         <div>
                                             Hiba lépett fel a hirdetés fizetése megadása során.
@@ -159,7 +159,7 @@
                                         <textarea class="form-control" id="description" name="description" rows="8" placeholder="Pár mondatban jellemezd, hogy a munkavállalónak milyen kirtériumnak kell megfelelnie, milyen feladatokat kell elvégeznie, milyen környezetben, pontosan mikor, stb.." required>{{ old('description') }}</textarea>
                                     </div>
                                     @error('description')
-                                    <div class="alert alert-danger d-flex align-items-center" role="alert">
+                                    <div class="alert alert-danger d-flex align-items-center mt-3" role="alert">
                                         <i class="bi bi-bug-fill" style="margin-right: 5px"></i>
                                         <div>
                                             Hiba lépett fel a hirdetés leírása során.
