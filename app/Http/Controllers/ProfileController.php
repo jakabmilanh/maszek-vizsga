@@ -101,6 +101,14 @@ class ProfileController extends Controller
         if ($user->id !== Auth::id()) {
             abort(403, 'Unauthorized action.');
         }
+        $validated = $request->validate([
+            'username' => ['required', 'string', 'max:50', 'min:5'],
+            'email' => ['required', 'email', 'max:255'],
+            'telephone' => ['nullable', 'string', 'max:20'],
+            'bio' => ['nullable', 'string', 'max:1000'],
+            'profile_picture' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
+            'profession_pictures.*' => ['nullable', 'file', 'mimes:jpeg,png,pdf,doc,docx', 'max:5120'],
+        ]);
 
 
         $user->update([

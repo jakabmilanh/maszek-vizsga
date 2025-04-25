@@ -136,7 +136,7 @@
                                             <div class="col-lg-12">
                                                 <div class="position-relative mb-3">
                                                     <span class="input-group-text"><i class="bi bi-person"></i></span>
-                                                    <input name="username" id="username" type="text" class="form-control" placeholder="Felhasználónév" value="{{ old('username', Auth::user()->username) }}" required>
+                                                    <input name="username" id="username" type="text" class="form-control" placeholder="Felhasználónév" value="{{ old('username', Auth::user()->username) }}" required min="5" max="50">
 
                                                 </div>
                                             </div>

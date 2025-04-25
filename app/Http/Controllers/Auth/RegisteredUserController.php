@@ -31,9 +31,9 @@ class RegisteredUserController extends Controller
 {
 
     $request->validate([
-        'username' => ['required', 'string', 'max:50', 'unique:users'],
+        'username' => ['required', 'string', 'max:50','min:5', 'unique:users'],
         'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-        'password' => ['required', 'confirmed'],
+        'password' => ['required', 'confirmed', 'min:6'],
         'telephone' => ['required', 'string', 'max:20'],
         'role' => ['required', 'in:Munkáltató,Munkavállaló'],
         'profile_picture' => ['nullable', 'image', 'max:2048'],
