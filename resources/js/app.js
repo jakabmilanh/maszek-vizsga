@@ -1,5 +1,4 @@
 import 'bootstrap';
-import 'bootstrap-icons';
 import Alpine from 'alpinejs';
 import Swal from 'sweetalert2';
 
