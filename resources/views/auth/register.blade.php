@@ -156,6 +156,7 @@
                                             <i class="bi bi-bug-fill" style="margin-right: 5px"></i>
                                             <div>
                                                 Hiba lépett fel a regisztráció közben. Kérjük, ellenőrizze az adatokat.
+                                                {{$error}}
                                             </div>
                                         </div>
                                     @endif
