@@ -81,7 +81,7 @@
                                 <div class="col-lg-6">
                                     <div class="position-relative mb-3">
                                         <span class="input-group-text"><i class="bi bi-person"></i></span>
-                                        <input name="username" id="username" type="text" class="form-control" placeholder="Felhasználónév" required min="5">
+                                        <input name="username" id="username" type="text" class="form-control" placeholder="Felhasználónév" required minlength="5">
                                     </div>
                                 </div>
 
@@ -95,7 +95,7 @@
                                 <div class="col-lg-6">
                                     <div class="position-relative mb-3">
                                         <span class="input-group-text"><i class="bi bi-lock"></i></span>
-                                        <input name="password" id="password" type="password" class="form-control" placeholder="Jelszó" required min="6">
+                                        <input name="password" id="password" type="password" class="form-control" placeholder="Jelszó" required minlength="6">
                                     </div>
                                 </div>
                                     <div class="col-lg-6">
