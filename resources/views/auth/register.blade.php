@@ -156,7 +156,11 @@
                                             <i class="bi bi-bug-fill" style="margin-right: 5px"></i>
                                             <div>
                                                 Hiba lépett fel a regisztráció közben. Kérjük, ellenőrizze az adatokat.
-                                                {{$error}}
+                                                <ul>
+                                                    @foreach ($errors->all() as $error)
+                                                        <li>{{ $error }}</li>
+                                                    @endforeach
+                                                </ul>
                                             </div>
                                         </div>
                                     @endif
