@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
-            @vite(['../../resources/css/app.css', 'resources/js/app.js',])
+            @vite(['resources/css/app.css', 'resources/js/app.js',])
         @endif
     </head>
     <body data-bs-spy="scroll" data-bs-target="#navbar" data-bs-offset="71">
